@@ -11,7 +11,13 @@
   <body>
     <main>
         <h1>Monthly expenses</h1>  
+        <p>Loading content from the API: <b id="name">...</b></p>
     </main>
-	<script src="index.js"></script>
+    <script>
+      (async function() {
+          const { text } = await( await fetch(`/api/Test`)).json();
+          document.querySelector('#name').textContent = text;
+      }());
+      </script>
   </body>
 </html>
