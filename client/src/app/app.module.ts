@@ -3,10 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { LoginGithubComponent } from './login-github/login-github.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginGithubComponent
   ],
   imports: [
     BrowserModule,
