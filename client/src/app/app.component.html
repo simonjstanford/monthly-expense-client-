@@ -3,6 +3,9 @@
 <!-- <p>{{message}}</p> -->
 
 <app-login-github></app-login-github>
-<app-logout *ngIf="user"></app-logout>
+<div *ngIf="user">
+    <app-user></app-user>
+    <app-logout></app-logout>
+</div>
 
 <!-- <a href="/.auth/login/github">Login via GitHub</a> <a href="/.auth/login/aad">Login via Microsoft</a>-->
