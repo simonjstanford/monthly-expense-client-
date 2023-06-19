@@ -17,10 +17,9 @@ export class OauthServiceService {
     this.http.get('/.auth/me', {observe: "response"})
       .toPromise()
       .then((resp: any) => {
-        console.log(resp);
-        if (resp && resp.text) {
-          const user = resp.text.json();
-          this.currentUserSubject.next(user)
+        console.log(`Retrieved user: ${resp}`);
+        if (resp && resp.body && resp.body.clientPrincipal) {
+          this.currentUserSubject.next(resp.body.clientPrincipal)
         } else {
           this.currentUserSubject.next(null)
         }
