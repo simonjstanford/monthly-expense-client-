@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { OauthServiceService } from '../services/oauth-service.service';
-import { User } from '../models/user';
+import { OauthServiceService } from '../../services/oauth-service.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-login-github',
@@ -17,8 +17,7 @@ export class LoginGithubComponent {
   }
 
   ngOnInit() {
-    this.oauthService.getUser().subscribe((user) => {
-      console.log(user);
+    this.oauthService.currentUserSubject.subscribe((user) => {
       this.user = user;
     });
   }
