@@ -1,29 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OauthServiceService {
-  currentUser: User | null;
+
+  public currentUserSubject = new Subject<User | null>();
 
   constructor(private http: HttpClient) { 
-    this.currentUser = null;
   }
   
   getUser() {
-    try {
-      this.http.get('/.auth/me').subscribe((resp: any) => {
+    this.http.get('/.auth/me', {observe: "response"})
+      .toPromise()
+      .then((resp: any) => {
         console.log(resp);
-        if (resp.text) {
-          this.currentUser = resp.text.json();
+        if (resp && resp.text) {
+          const user = resp.text.json();
+          this.currentUserSubject.next(user)
         } else {
-          this.currentUser = null;
+          this.currentUserSubject.next(null)
         }
+      })
+      .catch((err) => {
+        console.log(err);
+        this.currentUserSubject.next(null)
       });
-    } catch (e) {
-      console.log(e);
-    }
+
+    return this.currentUserSubject;
   }
 }

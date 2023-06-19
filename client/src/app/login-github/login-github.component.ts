@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { OauthServiceService } from '../services/oauth-service.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-login-github',
@@ -9,12 +10,17 @@ import { OauthServiceService } from '../services/oauth-service.service';
 })
 export class LoginGithubComponent {
   message = '';
+  user: User | null;
 
   constructor(private http: HttpClient, private oauthService: OauthServiceService) {
+    this.user = null;
   }
 
   ngOnInit() {
-    const user = this.oauthService.getUser();
+    this.oauthService.getUser().subscribe((user) => {
+      console.log(user);
+      this.user = user;
+    });
   }
 
   login() {
