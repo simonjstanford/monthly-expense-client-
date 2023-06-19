@@ -9,15 +9,4 @@ import { User } from './models/user';
 })
 export class AppComponent {
   title = 'monthly-expenses';
-  user: User | null;
-
-  constructor(private oauthService: OauthServiceService) {
-    this.user = null;
-  }
-
-  ngOnInit() {
-    this.oauthService.getUser().subscribe((user) => {
-      this.user = user;
-    });
-  }
 }
