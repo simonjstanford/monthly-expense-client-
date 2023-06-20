@@ -1,3 +1,17 @@
 <div *ngIf="user && expenses">
-    <p>{{expenses.text}}</p>
+    <h2>Hello {{expenses.user}}!</h2>
+
+    <div>
+        <h3>Outgoings</h3>
+        <div *ngFor="let item of expenses.months[0].outgoings | keyvalue">
+            <span>{{item.key}}: {{item.value}}</span>
+        </div>
+    </div>
+
+    <div>
+        <h3>Income</h3>
+        <div *ngFor="let item of expenses.months[0].income | keyvalue">
+            <span>{{item.key}}: {{item.value}}</span>
+        </div>
+    </div>
 </div>

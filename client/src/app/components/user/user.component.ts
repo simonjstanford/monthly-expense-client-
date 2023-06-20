@@ -11,7 +11,7 @@ import { OauthServiceService } from 'src/app/services/oauth.service';
 export class UserComponent {
   user: User | null;
 
-  constructor(private http: HttpClient, private oauthService: OauthServiceService) {
+  constructor(private oauthService: OauthServiceService) {
     this.user = null;
   }
 
