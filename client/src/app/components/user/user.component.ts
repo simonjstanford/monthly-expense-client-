@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { User } from 'src/app/models/user';
-import { OauthServiceService } from 'src/app/services/oauth-service.service';
+import { OauthServiceService } from 'src/app/services/oauth.service';
 
 @Component({
   selector: 'app-user',

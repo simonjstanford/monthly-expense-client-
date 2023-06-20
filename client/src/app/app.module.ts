@@ -4,11 +4,15 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { UserComponent } from './components/user/user.component';
+import { CurrentMonthComponent } from './components/current.month/current.month.component';
+import { UserExpensesComponent } from './components/user.expenses/user.expenses.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent
+    UserComponent,
+    CurrentMonthComponent,
+    UserExpensesComponent,
   ],
   imports: [
     BrowserModule,
