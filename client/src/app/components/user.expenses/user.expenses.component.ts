@@ -19,7 +19,7 @@ export class UserExpensesComponent {
   }
 
   ngOnInit() {
-    this.oauthService.getUser().subscribe((user) => {
+    this.oauthService.currentUserSubject.subscribe((user) => {
       this.user = user;
       this.fetchUserData();
     });
