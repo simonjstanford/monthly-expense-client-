@@ -16,10 +16,9 @@ public class OAuthAuthenticator : IAuthenticator
     {
         var principal = new ClientPrincipal();
 
-        if (req.Headers.TryGetValue("x-ms-client-principal", out var header))
+        if (req.Cookies.TryGetValue("StaticWebAppsAuthCookie", out var cookie))
         {
-            var data = header[0];
-            var decoded = Convert.FromBase64String(data);
+            var decoded = Convert.FromBase64String(cookie);
             var json = Encoding.UTF8.GetString(decoded);
             principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
