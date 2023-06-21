@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace MonthlyExpenses.Api
+namespace MonthlyExpenses.Api.Models
 {
     public class UserExpenses
     {
-
         [JsonPropertyName("user")]
         public string User { get; set; }
 
