@@ -11,10 +11,12 @@ namespace MonthlyExpenses.Api
     public class UserExpensesFunction
     {
         private readonly IRepository repository;
+        private readonly IAuthenticator authenticator;
 
-        public UserExpensesFunction(IRepository repository)
+        public UserExpensesFunction(IRepository repository, IAuthenticator authenticator)
         {
             this.repository = repository;
+            this.authenticator = authenticator;
         }
 
         [FunctionName("monthexpenses")]
@@ -23,6 +25,12 @@ namespace MonthlyExpenses.Api
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
+            
+            var isAuthenticated = await authenticator.IsValid();
+            if (!isAuthenticated)
+            {
+                return new UnauthorizedResult();
+            }
 
             // string name = req.Query["name"];
 
