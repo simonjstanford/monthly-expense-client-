@@ -26,8 +26,8 @@ namespace MonthlyExpenses.Api
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
             
-            var isAuthenticated = await authenticator.IsValid();
-            if (!isAuthenticated)
+            var principal = await authenticator.GetClaimsPrincipal(req);
+            if (!principal.Identity.IsAuthenticated || principal.IsInRole("authenticated"))
             {
                 return new UnauthorizedResult();
             }

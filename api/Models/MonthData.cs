@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MonthlyExpenses.Api
+namespace MonthlyExpenses.Api.Models
 {
     public class MonthData
     {
