@@ -23,6 +23,7 @@ public class OAuthAuthenticator : IAuthenticator
 
         if (req.Cookies.TryGetValue(cookieName, out var cookie))
         {
+            logger.LogInformation($"{cookieName}: {cookie}");
             var decoded = Convert.FromBase64String(cookie);
             var json = Encoding.UTF8.GetString(decoded);
             logger.LogInformation($"{cookieName}: {json}");
