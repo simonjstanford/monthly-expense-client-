@@ -29,7 +29,7 @@
       },
       {
         "route": "/logout",
-        "redirect": "/.auth/logout",
+        "rewrite": "/.auth/logout",
         "allowedRoles": ["authenticated"]
       }
     ],
