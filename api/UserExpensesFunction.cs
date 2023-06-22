@@ -26,15 +26,15 @@ namespace MonthlyExpenses.Api
         {
             log.LogInformation("monthexpenses GET called");
             
-            var principal = await authenticator.GetClaimsPrincipal(req, log);
-            if (!principal.Identity.IsAuthenticated || !principal.IsInRole("authenticated"))
+            var (user, isAuthenticated) = await authenticator.AuthenticateRequest(req, log);
+            if (!isAuthenticated)
             {
-                log.LogError($"Principal {principal.Identity.Name} is not authorised: {principal.Identity.IsAuthenticated}, {principal.IsInRole("authenticated")}");
                 return new UnauthorizedResult();
             }
 
-            log.LogInformation($"Principal {principal.Identity.Name} is authorised for monthexpenses GET");
-            var data = await repository.GetUserExpenses();
+            var data = await repository.GetUserExpenses(user);
+
+            log.LogInformation("monthexpenses GET completed");
             return new JsonResult(data);
         }
     }

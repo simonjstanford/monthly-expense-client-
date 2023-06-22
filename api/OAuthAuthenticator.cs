@@ -15,7 +15,7 @@ public class OAuthAuthenticator : IAuthenticator
 {
     private const string cookieName = "StaticWebAppsAuthCookie";
 
-    public Task<ClaimsPrincipal> GetClaimsPrincipal(HttpRequest req, ILogger logger)
+    public Task<(string user, bool isAuthenticated)> AuthenticateRequest(HttpRequest req, ILogger logger)
     {
         logger.LogInformation("Getting Claims Principal");
 
@@ -30,6 +30,7 @@ public class OAuthAuthenticator : IAuthenticator
         else
         {
             logger.LogError($"Unable to find cookie {cookieName}");
+            return Task.FromResult((string.Empty, false));
         }
 
         principal.UserRoles = principal.UserRoles?.Except(new string[] { "anonymous" }, StringComparer.CurrentCultureIgnoreCase);
@@ -37,7 +38,7 @@ public class OAuthAuthenticator : IAuthenticator
         if (!principal.UserRoles?.Any() ?? true)
         {
             logger.LogError($"No roles associated with principal {principal.UserDetails}");
-            return Task.FromResult(new ClaimsPrincipal());
+            return Task.FromResult((principal.UserDetails, false));
         }
 
         var identity = new ClaimsIdentity(principal.IdentityProvider);
@@ -45,6 +46,14 @@ public class OAuthAuthenticator : IAuthenticator
         identity.AddClaim(new Claim(ClaimTypes.Name, principal.UserDetails));
         identity.AddClaims(principal.UserRoles.Select(r => new Claim(ClaimTypes.Role, r)));
 
-        return Task.FromResult(new ClaimsPrincipal(identity));
+        var claimsPrincipal = new ClaimsPrincipal(identity);
+        if (!claimsPrincipal.Identity.IsAuthenticated || !claimsPrincipal.IsInRole("authenticated"))
+        {
+            logger.LogError($"Principal {claimsPrincipal.Identity.Name} is not authorised: {claimsPrincipal.Identity.IsAuthenticated}, {claimsPrincipal.IsInRole("authenticated")}");
+            return Task.FromResult((claimsPrincipal.Identity.Name, false));
+        }
+
+        logger.LogInformation($"Principal {claimsPrincipal.Identity.Name} is authorised for monthexpenses GET");
+        return Task.FromResult((claimsPrincipal.Identity.Name, true));
     }
 }

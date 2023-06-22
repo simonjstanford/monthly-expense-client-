@@ -5,6 +5,6 @@ namespace MonthlyExpenses.Api.Interfaces
 {
     public interface IRepository
     {
-        Task<UserExpenses> GetUserExpenses();
+        Task<UserExpenses> GetUserExpenses(string user);
     }
 }

@@ -8,11 +8,11 @@ namespace MonthlyExpenses.Api;
 
 public class Repository : IRepository
 {
-    public Task<UserExpenses> GetUserExpenses()
+    public Task<UserExpenses> GetUserExpenses(string user)
     {
         var data = new UserExpenses
         {
-            User = "Test User!",
+            User = user,
             Months = new []
             {
                 new MonthData
