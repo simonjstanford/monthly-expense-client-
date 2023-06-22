@@ -21,13 +21,13 @@ public class OAuthAuthenticator : IAuthenticator
 
         var principal = new ClientPrincipal();
 
-        if (req.Cookies.TryGetValue(cookieName, out var cookie))
+        if (req.Headers.TryGetValue("x-ms-client-principal", out var header))
         {
-            logger.LogInformation($"{cookieName}: {cookie}");
-            var decoded = Convert.FromBase64String(cookie);
+            var data = header.First();
+            var decoded = Convert.FromBase64String(data);
             var json = Encoding.UTF8.GetString(decoded);
-            logger.LogInformation($"{cookieName}: {json}");
-            principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            logger.LogInformation($"x-ms-client-principal: {json}");
+            principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
         }
         else
         {
