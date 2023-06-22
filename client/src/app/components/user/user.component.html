@@ -1,5 +1,5 @@
 <ul>
     <li *ngIf="!user"><a href="/.auth/login/github">Login with GitHub</a></li>
     <li *ngIf="user">{{user.userDetails}}</li>
-    <li *ngIf="user"><a href="/logout">Log out</a></li>
+    <li *ngIf="user"><a href="/.auth/logout">Log out</a></li>
 </ul>
