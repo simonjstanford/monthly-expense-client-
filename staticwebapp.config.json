@@ -20,17 +20,8 @@
         "allowedRoles": ["authenticated"]
       },
       {
-        "route": "/login",
-        "rewrite": "/.auth/login/github"
-      },
-      {
         "route": "/.auth/login/twitter",
         "statusCode": 404
-      },
-      {
-        "route": "/logout",
-        "rewrite": "/.auth/logout",
-        "allowedRoles": ["authenticated"]
       }
     ],
     "navigationFallback": {
