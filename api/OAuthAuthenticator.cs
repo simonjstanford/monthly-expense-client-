@@ -13,49 +13,58 @@ namespace MonthlyExpenses.Api;
 
 public class OAuthAuthenticator : IAuthenticator
 {
-    private const string cookieName = "StaticWebAppsAuthCookie";
+    private const string principal_header = "x-ms-client-principal";
 
-    public Task<(string user, bool isAuthenticated)> AuthenticateRequest(HttpRequest req, ILogger logger)
+    public Task<string> AuthenticateRequest(HttpRequest req, ILogger logger)
     {
         logger.LogInformation("Getting Claims Principal");
+        var clientPrincipal = GetClientPrincipal(req, logger);
+        AssertClientPrincipalHasUserRoles(clientPrincipal);
+        var claimsPrincipal = CreateClaimsPrincipal(clientPrincipal);
+        AssertIsAuthenticated(claimsPrincipal);
+        logger.LogInformation($"Principal {claimsPrincipal.Identity.Name} is authorised for monthexpenses GET");
+        return Task.FromResult(claimsPrincipal.Identity.Name);
+    }
 
-        var principal = new ClientPrincipal();
-
-        if (req.Headers.TryGetValue("x-ms-client-principal", out var header))
+    private static ClientPrincipal GetClientPrincipal(HttpRequest req, ILogger logger)
+    {
+        if (req.Headers.TryGetValue(principal_header, out var header))
         {
             var data = header.First();
             var decoded = Convert.FromBase64String(data);
             var json = Encoding.UTF8.GetString(decoded);
             logger.LogInformation($"x-ms-client-principal: {json}");
-            principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-        }
-        else
-        {
-            logger.LogError($"Unable to find cookie {cookieName}");
-            return Task.FromResult((string.Empty, false));
+            var principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            principal.UserRoles = principal.UserRoles?.Except(new string[] { "anonymous" }, StringComparer.CurrentCultureIgnoreCase);
+            return principal;
         }
 
-        principal.UserRoles = principal.UserRoles?.Except(new string[] { "anonymous" }, StringComparer.CurrentCultureIgnoreCase);
-
+        throw new ClientAuthenticationException($"Unable to find cookie {principal_header}");
+    }
+    
+    private static void AssertClientPrincipalHasUserRoles(ClientPrincipal principal)
+    {
         if (!principal.UserRoles?.Any() ?? true)
         {
-            logger.LogError($"No roles associated with principal {principal.UserDetails}");
-            return Task.FromResult((principal.UserDetails, false));
+            throw new ClientAuthenticationException($"No roles associated with principal {principal.UserDetails}");
         }
+    }
 
+    private static ClaimsPrincipal CreateClaimsPrincipal(ClientPrincipal principal)
+    {
         var identity = new ClaimsIdentity(principal.IdentityProvider);
         identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, principal.UserId));
         identity.AddClaim(new Claim(ClaimTypes.Name, principal.UserDetails));
         identity.AddClaims(principal.UserRoles.Select(r => new Claim(ClaimTypes.Role, r)));
+        return new ClaimsPrincipal(identity);
+    }
 
-        var claimsPrincipal = new ClaimsPrincipal(identity);
+    private static void AssertIsAuthenticated(ClaimsPrincipal claimsPrincipal)
+    {
         if (!claimsPrincipal.Identity.IsAuthenticated || !claimsPrincipal.IsInRole("authenticated"))
         {
-            logger.LogError($"Principal {claimsPrincipal.Identity.Name} is not authorised: {claimsPrincipal.Identity.IsAuthenticated}, {claimsPrincipal.IsInRole("authenticated")}");
-            return Task.FromResult((claimsPrincipal.Identity.Name, false));
+            throw new ClientAuthenticationException(
+                $"Principal {claimsPrincipal.Identity.Name} is not authorised: {claimsPrincipal.Identity.IsAuthenticated}, {claimsPrincipal.IsInRole("authenticated")}");
         }
-
-        logger.LogInformation($"Principal {claimsPrincipal.Identity.Name} is authorised for monthexpenses GET");
-        return Task.FromResult((claimsPrincipal.Identity.Name, true));
     }
 }

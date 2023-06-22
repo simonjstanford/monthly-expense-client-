@@ -6,6 +6,6 @@ namespace MonthlyExpenses.Api.Interfaces
 {
     public interface IAuthenticator
     {
-        Task<(string user, bool isAuthenticated)> AuthenticateRequest(HttpRequest req, ILogger logger);
+        Task<string> AuthenticateRequest(HttpRequest req, ILogger logger);
     }
 }

@@ -5,6 +5,9 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
+using System;
+using MonthlyExpenses.Api.Models;
+using System.Web.Http;
 
 namespace MonthlyExpenses.Api
 {
@@ -24,18 +27,24 @@ namespace MonthlyExpenses.Api
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("monthexpenses GET called");
-            
-            var (user, isAuthenticated) = await authenticator.AuthenticateRequest(req, log);
-            if (!isAuthenticated)
+            try
             {
+                log.LogInformation("monthexpenses GET called");
+                var user = await authenticator.AuthenticateRequest(req, log);
+                var data = await repository.GetUserExpenses(user);
+                log.LogInformation("monthexpenses GET completed");
+                return new JsonResult(data);
+            }
+            catch (ClientAuthenticationException ex)
+            {
+                log.LogError(ex.Message);
                 return new UnauthorizedResult();
             }
-
-            var data = await repository.GetUserExpenses(user);
-
-            log.LogInformation("monthexpenses GET completed");
-            return new JsonResult(data);
+            catch (Exception ex)
+            {
+                log.LogError(ex.Message);
+                return new InternalServerErrorResult();
+            }
         }
     }
 }
