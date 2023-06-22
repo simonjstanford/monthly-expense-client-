@@ -25,6 +25,7 @@ public class OAuthAuthenticator : IAuthenticator
         {
             var decoded = Convert.FromBase64String(cookie);
             var json = Encoding.UTF8.GetString(decoded);
+            logger.LogInformation($"{cookieName}: {json}");
             principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
         else
