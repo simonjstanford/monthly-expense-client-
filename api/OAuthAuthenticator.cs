@@ -7,26 +7,36 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using MonthlyExpenses.Api.Models;
+using Microsoft.Extensions.Logging;
 
 namespace MonthlyExpenses.Api;
 
 public class OAuthAuthenticator : IAuthenticator
 {
-    public Task<ClaimsPrincipal> GetClaimsPrincipal(HttpRequest req)
+    private const string cookieName = "StaticWebAppsAuthCookie";
+
+    public Task<ClaimsPrincipal> GetClaimsPrincipal(HttpRequest req, ILogger logger)
     {
+        logger.LogInformation("Getting Claims Principal");
+
         var principal = new ClientPrincipal();
 
-        if (req.Cookies.TryGetValue("StaticWebAppsAuthCookie", out var cookie))
+        if (req.Cookies.TryGetValue(cookieName, out var cookie))
         {
             var decoded = Convert.FromBase64String(cookie);
             var json = Encoding.UTF8.GetString(decoded);
             principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        else
+        {
+            logger.LogError($"Unable to find cookie {cookieName}");
         }
 
         principal.UserRoles = principal.UserRoles?.Except(new string[] { "anonymous" }, StringComparer.CurrentCultureIgnoreCase);
 
         if (!principal.UserRoles?.Any() ?? true)
         {
+            logger.LogError($"No roles associated with principal {principal.UserDetails}");
             return Task.FromResult(new ClaimsPrincipal());
         }
 

@@ -10,6 +10,7 @@ namespace MonthlyExpenses.Api
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            builder.Services.AddLogging();
             builder.Services.AddSingleton<IRepository, Repository>();
             builder.Services.AddSingleton<IAuthenticator, OAuthAuthenticator>();
         }

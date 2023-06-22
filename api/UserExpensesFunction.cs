@@ -24,24 +24,16 @@ namespace MonthlyExpenses.Api
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation("monthexpenses GET called");
             
-            var principal = await authenticator.GetClaimsPrincipal(req);
-            if (!principal.Identity.IsAuthenticated || principal.IsInRole("authenticated"))
+            var principal = await authenticator.GetClaimsPrincipal(req, log);
+            if (!principal.Identity.IsAuthenticated || !principal.IsInRole("authenticated"))
             {
+                log.LogError($"Principal {principal.Identity.Name} is not authorised: {principal.Identity.IsAuthenticated}, {principal.IsInRole("authenticated")}");
                 return new UnauthorizedResult();
             }
 
-            // string name = req.Query["name"];
-
-            // string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            // dynamic data = JsonConvert.DeserializeObject(requestBody);
-            // name = name ?? data?.name;
-
-            // string responseMessage = string.IsNullOrEmpty(name)
-            //     ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-            //     : $"Hello, {name}. This HTTP triggered function executed successfully.";
-
+            log.LogInformation($"Principal {principal.Identity.Name} is authorised for monthexpenses GET");
             var data = await repository.GetUserExpenses();
             return new JsonResult(data);
         }
