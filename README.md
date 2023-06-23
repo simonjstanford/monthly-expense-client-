@@ -10,3 +10,4 @@ This project uses the following tech:
 - Azure Functions in C# as the backend API
 - Deployed to Azure Static Web Apps using a GitHub Action CI/CD pipeline
 - OAuth2 for authentication
+- Application Insights for logging
