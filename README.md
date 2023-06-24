@@ -13,3 +13,4 @@ This project uses the following tech:
 - Application Insights for logging
 - StyleCop for the API style enforcement
 - Sonar for the API for static code analysis
+- Swagger for OpenAPI

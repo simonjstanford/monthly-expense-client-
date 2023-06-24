@@ -3,12 +3,14 @@
 // </copyright>
 
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
@@ -26,9 +28,13 @@ namespace MonthlyExpenses.Api
             this.authenticator = authenticator;
         }
 
-        [FunctionName("monthexpenses")]
+        [FunctionName("GetUserExpenses")]
+        [OpenApiOperation(operationId: "Run", tags: new[] { "name" }, Description = "Fetches all the expense data for the currently authenticated user")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/json", bodyType: typeof(UserExpenses), Description = "The OK response")]
+        [OpenApiResponseWithoutBody(HttpStatusCode.Unauthorized, Description = "When not authenticated")]
+        [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "monthexpenses")] HttpRequest req,
             ILogger log)
         {
             try
