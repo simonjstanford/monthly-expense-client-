@@ -1,5 +1,8 @@
+// <copyright file="ClientAuthenticationException.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
 using System;
-using System.Collections.Generic;
 
 namespace MonthlyExpenses.Api.Models
 {

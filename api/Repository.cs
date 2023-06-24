@@ -1,3 +1,7 @@
+// <copyright file="Repository.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -6,14 +10,16 @@ using MonthlyExpenses.Api.Models;
 
 namespace MonthlyExpenses.Api;
 
+/// <inheritdoc/>
 public class Repository : IRepository
 {
+    /// <inheritdoc/>
     public Task<UserExpenses> GetUserExpenses(string user)
     {
         var data = new UserExpenses
         {
             User = user,
-            Months = new []
+            Months = new[]
             {
                 new MonthData
                 {
@@ -30,9 +36,9 @@ public class Repository : IRepository
                         { "Phone", 30 },
                         { "Internet", 40 },
                         { "Food", 300 },
-                    }
-                }
-            }
+                    },
+                },
+            },
         };
 
         return Task.FromResult(data);

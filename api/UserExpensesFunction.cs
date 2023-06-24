@@ -1,13 +1,17 @@
+// <copyright file="UserExpensesFunction.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
+using System;
 using System.Threading.Tasks;
+using System.Web.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
-using System;
 using MonthlyExpenses.Api.Models;
-using System.Web.Http;
 
 namespace MonthlyExpenses.Api
 {

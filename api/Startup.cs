@@ -1,3 +1,7 @@
+// <copyright file="Startup.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MonthlyExpenses.Api.Interfaces;
