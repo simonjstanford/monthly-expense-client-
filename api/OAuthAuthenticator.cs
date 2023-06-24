@@ -40,9 +40,8 @@ public class OAuthAuthenticator : IAuthenticator
 
     private static ClientPrincipal GetClientPrincipal(HttpRequest req, ILogger logger)
     {
-        if (req.Headers.TryGetValue(PrincipalHeader, out var header))
+        if (req.Headers.TryGetValue(PrincipalHeader, out var header) && header.FirstOrDefault() is string data)
         {
-            var data = header.First();
             var decoded = Convert.FromBase64String(data);
             var json = Encoding.UTF8.GetString(decoded);
             logger.LogInformation($"x-ms-client-principal: {json}");

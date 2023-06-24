@@ -11,3 +11,5 @@ This project uses the following tech:
 - Deployed to Azure Static Web Apps using a GitHub Action CI/CD pipeline
 - OAuth2 for authentication
 - Application Insights for logging
+- StyleCop for the API style enforcement
+- Sonar for the API for static code analysis
