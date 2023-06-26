@@ -57,6 +57,9 @@ dotnet_diagnostic.SA1615.severity = silent
 # SA1629: Documentation text should end with a period
 dotnet_diagnostic.SA1629.severity = none
 
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4

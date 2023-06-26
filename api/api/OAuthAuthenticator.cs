@@ -29,6 +29,7 @@ public class OAuthAuthenticator : IAuthenticator
     /// <inheritdoc/>
     public Task<string> AuthenticateRequest(HttpRequest req, ILogger logger)
     {
+        AssertRequestNotNull(req);
         logger.LogInformation("Getting Claims Principal");
         var clientPrincipal = GetClientPrincipal(req, logger);
         AssertClientPrincipalHasUserRoles(clientPrincipal);
@@ -36,6 +37,14 @@ public class OAuthAuthenticator : IAuthenticator
         AssertIsAuthenticated(claimsPrincipal);
         logger.LogInformation($"Principal {claimsPrincipal.Identity.Name} is authorised for monthexpenses GET");
         return Task.FromResult(claimsPrincipal.Identity.Name);
+    }
+
+    private static void AssertRequestNotNull(HttpRequest req)
+    {
+        if (req == null)
+        {
+            throw new ArgumentNullException(nameof(req));
+        }
     }
 
     private static ClientPrincipal GetClientPrincipal(HttpRequest req, ILogger logger)

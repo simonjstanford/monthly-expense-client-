@@ -10,8 +10,12 @@ using MonthlyExpenses.Api.Interfaces;
 
 namespace MonthlyExpenses.Api
 {
+    /// <summary>
+    /// DI class for injecting interface implementations.
+    /// </summary>
     public class Startup : FunctionsStartup
     {
+        /// <inheritdoc/>
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddLogging();
