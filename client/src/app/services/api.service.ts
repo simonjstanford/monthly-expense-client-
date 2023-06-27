@@ -11,6 +11,6 @@ export class ApiService {
   }
   
   getUserData() {
-    return this.http.get<UserExpenses>('/api/monthexpenses');
+    return this.http.get<UserExpenses>('/api/user/data');
   }
 }

@@ -29,12 +29,12 @@ namespace MonthlyExpenses.Api
         }
 
         [FunctionName("GetUserExpenses")]
-        [OpenApiOperation(operationId: "Run", tags: new[] { "name" }, Description = "Fetches all the expense data for the currently authenticated user")]
+        [OpenApiOperation(operationId: "GetUserExpenses", tags: new string[0], Description = "Fetches all the expense data for the currently authenticated user")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/json", bodyType: typeof(UserExpenses), Description = "The OK response")]
         [OpenApiResponseWithoutBody(HttpStatusCode.Unauthorized, Description = "When not authenticated")]
         [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "monthexpenses")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/data")] HttpRequest req,
             ILogger log)
         {
             try
