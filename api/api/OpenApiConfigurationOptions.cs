@@ -11,10 +11,8 @@ namespace MonthlyExpenses.Api
 {
     public class OpenApiConfigurationOptions : DefaultOpenApiConfigurationOptions
     {
-#pragma warning disable S1075 // URIs should not be hardcoded
         private const string IssuesUrl = "https://github.com/simonjstanford/monthly-expenses/issues";
         private const string UriString = "https://github.com/simonjstanford/monthly-expenses/blob/main/LICENSE";
-#pragma warning restore S1075 // URIs should not be hardcoded
 
         public override OpenApiInfo Info { get; set; } =
           new OpenApiInfo

@@ -24,7 +24,7 @@ namespace MonthlyExpenses.Api;
 /// </summary>
 public class OAuthAuthenticator : IAuthenticator
 {
-    private const string PrincipalHeader = "x-ms-client-principal";
+    public const string PrincipalHeader = "x-ms-client-principal";
 
     /// <inheritdoc/>
     public Task<string> AuthenticateRequest(HttpRequest req, ILogger logger)
@@ -49,7 +49,7 @@ public class OAuthAuthenticator : IAuthenticator
 
     private static ClientPrincipal GetClientPrincipal(HttpRequest req, ILogger logger)
     {
-        if (req.Headers.TryGetValue(PrincipalHeader, out var header) && header.FirstOrDefault() is string data)
+        if (req.Headers?.TryGetValue(PrincipalHeader, out var header) == true && header.FirstOrDefault() is string data)
         {
             var decoded = Convert.FromBase64String(data);
             var json = Encoding.UTF8.GetString(decoded);

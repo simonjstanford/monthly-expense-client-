@@ -14,3 +14,4 @@ This project uses the following tech:
 - StyleCop for the API style enforcement
 - Sonar for the API for static code analysis
 - Swagger for OpenAPI
+- xUnit, Moq and FluentAssertions for the C# unit tests
