@@ -10,6 +10,10 @@ namespace MonthlyExpenses.Api.Models
     [Serializable]
     public class ClientAuthenticationException : Exception
     {
+        public ClientAuthenticationException()
+        {
+        }
+
         public ClientAuthenticationException(string message)
             : base(message)
         {

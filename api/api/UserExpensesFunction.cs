@@ -33,7 +33,7 @@ namespace MonthlyExpenses.Api
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "text/json", bodyType: typeof(UserExpenses), Description = "The OK response")]
         [OpenApiResponseWithoutBody(HttpStatusCode.Unauthorized, Description = "When not authenticated")]
         [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> Run(
+        public async Task<IActionResult> GetUserExpenses(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/data")] HttpRequest req,
             ILogger log)
         {
