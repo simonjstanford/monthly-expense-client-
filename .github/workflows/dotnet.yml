@@ -4,8 +4,7 @@
 name: .NET
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_call:
   pull_request:
     branches: [ "main" ]
 
@@ -26,9 +25,9 @@ jobs:
       working-directory: ./api/
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -warnaserror -c Release --verbosity m
       working-directory: ./api/
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build -c Release --verbosity m
       working-directory: ./api/
