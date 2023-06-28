@@ -3,7 +3,7 @@
 A personal expenses tool used to track your month by month income and outgoings.
 
 [![.NET](https://github.com/simonjstanford/monthly-expenses/actions/workflows/dotnet.yml/badge.svg)](https://github.com/simonjstanford/monthly-expenses/actions/workflows/dotnet.yml)\
-[![Azure Static Web Apps CI/CD](https://github.com/simonjstanford/monthly-expenses/actions/workflows/deploy.yml/badge.svg)](https://github.com/simonjstanford/monthly-expenses/actions/workflows/deploy.yml)
+[![Azure Static Web Apps CI/CD](https://github.com/simonjstanford/monthly-expenses/workflows/Azure%20Static%20Web%20Apps%20CI%2FCD/badge.svg)](https://github.com/simonjstanford/monthly-expenses/actions/workflows/deploy.yml)
 
 ## Technical details:
 
