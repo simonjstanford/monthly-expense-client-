@@ -6,6 +6,7 @@ using MonthlyExpenses.Api;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
 using Moq;
+using System.Web.Http;
 
 namespace api.Test
 {
@@ -18,6 +19,35 @@ namespace api.Test
             authenticator.Setup(x => x.AuthenticateRequest(It.IsAny<HttpRequest>(), It.IsAny<ILogger>())).Throws<ClientAuthenticationException>();
             var result = await GetUserExpenses(sut);
             result.Should().BeOfType<UnauthorizedResult>();
+        }
+
+        [Fact]
+        public async Task GetUserExpenses_WhenRepositoryThrowsException_ShouldReturnInternalServerErrorResult()
+        {
+            var (sut, repo, _) = Setup();
+            repo.Setup(x => x.GetUserExpenses(It.IsAny<string>())).Throws<Exception>();
+            var result = await GetUserExpenses(sut);
+            result.Should().BeOfType<InternalServerErrorResult>();
+        }
+
+        [Fact]
+        public async Task GetUserExpenses_WhenRepositoryReturnsNull_ShouldReturnNotFoundResult()
+        {
+            var (sut, repo, _) = Setup();
+            repo.Setup(x => x.GetUserExpenses(It.IsAny<string>())).Returns(Task.FromResult<UserExpenses>(null!));
+            var result = await GetUserExpenses(sut);
+            result.Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task GetUserExpenses_WhenRepositoryReturnsData_ShouldReturnNotFoundResult()
+        {
+            var (sut, repo, _) = Setup();
+            var data = new UserExpenses();
+            repo.Setup(x => x.GetUserExpenses(It.IsAny<string>())).Returns(Task.FromResult(data));
+            var result = await GetUserExpenses(sut);
+            result.Should().BeOfType<JsonResult>();
+            ((JsonResult)result).Value.Should().Be(data);
         }
 
         private static (UserExpensesFunction sut, Mock<IRepository> repository, Mock<IAuthenticator> authenticator) Setup()

@@ -42,8 +42,16 @@ namespace MonthlyExpenses.Api
                 log.LogInformation("monthexpenses GET called");
                 var user = await authenticator.AuthenticateRequest(req, log);
                 var data = await repository.GetUserExpenses(user);
-                log.LogInformation("monthexpenses GET completed");
-                return new JsonResult(data);
+
+                if (data != null)
+                {
+                    log.LogInformation("monthexpenses GET completed");
+                    return new JsonResult(data);
+                }
+                else
+                {
+                    return new NotFoundResult();
+                }
             }
             catch (ClientAuthenticationException ex)
             {
