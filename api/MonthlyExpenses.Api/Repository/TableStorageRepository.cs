@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
@@ -30,9 +31,9 @@ public class TableStorageRepository : IRepository
             var table = await tableClientFactory.GetExpensesTable();
             var entity = await table.GetEntityIfExistsAsync<UserExpenseEntity>(PartitionKey, user.Id);
 
-            if (entity?.HasValue == true && entity.Value?.Expenses is byte[] expensesBytes)
+            if (entity?.HasValue == true && entity.Value?.Expenses is string expensesJson)
             {
-                return Serializer.ByteArrayToObject<UserExpenses>(expensesBytes);
+                return JsonSerializer.Deserialize<UserExpenses>(expensesJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
             else
             {
@@ -46,6 +47,7 @@ public class TableStorageRepository : IRepository
         }
     }
 
+    /// <inheritdoc/>
     public async Task SaveUserExpenses(string user, UserExpenses data, ILogger log)
     {
         try
@@ -67,7 +69,7 @@ public class TableStorageRepository : IRepository
         {
             RowKey = user,
             PartitionKey = PartitionKey,
-            Expenses = Serializer.ObjectToByteArray(data),
+            Expenses = JsonSerializer.Serialize(data),
         };
     }
 }

@@ -18,5 +18,5 @@ public record UserExpenseEntity : ITableEntity
 
     public DateTimeOffset? Timestamp { get; set; } = default!;
 
-    public byte[] Expenses { get; set; }
+    public string Expenses { get; set; }
 }
