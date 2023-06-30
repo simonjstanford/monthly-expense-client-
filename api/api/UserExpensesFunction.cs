@@ -41,7 +41,7 @@ namespace MonthlyExpenses.Api
             {
                 log.LogInformation("monthexpenses GET called");
                 var user = await authenticator.AuthenticateRequest(req, log);
-                var data = await repository.GetUserExpenses(user);
+                var data = await repository.GetUserExpenses(user, log);
 
                 if (data != null)
                 {

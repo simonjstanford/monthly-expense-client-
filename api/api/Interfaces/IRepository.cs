@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Models;
 
 namespace MonthlyExpenses.Api.Interfaces
@@ -15,6 +16,11 @@ namespace MonthlyExpenses.Api.Interfaces
         /// <summary>
         /// Gets all expense data for the given user.
         /// </summary>
-        Task<UserExpenses> GetUserExpenses(string user);
+        Task<UserExpenses> GetUserExpenses(string user, ILogger log);
+
+        /// <summary>
+        /// Saves the given expense data for the specified user.
+        /// </summary>
+        Task SaveUserExpenses(string user, UserExpenses data, ILogger log);
     }
 }
