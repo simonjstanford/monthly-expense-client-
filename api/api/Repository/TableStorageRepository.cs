@@ -4,26 +4,30 @@
 
 using System;
 using System.Threading.Tasks;
-using Azure.Data.Tables;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
+using MonthlyExpenses.Api.Repository.Repository;
 
 namespace MonthlyExpenses.Api.Repository;
 
 /// <inheritdoc/>
 public class TableStorageRepository : IRepository
 {
-    private const string ConnectionStringEnvVariable = "StorageAccount_ConnectionString";
-    private const string TableName = "expenses";
     private const string PartitionKey = "user-expense-data";
+    private readonly ITableClientFactory tableClientFactory;
+
+    public TableStorageRepository(ITableClientFactory tableClientFactory)
+    {
+        this.tableClientFactory = tableClientFactory;
+    }
 
     /// <inheritdoc/>
     public async Task<UserExpenses> GetUserExpenses(User user, ILogger log)
     {
         try
         {
-            var table = await GetExpensesTable();
+            var table = await tableClientFactory.GetExpensesTable();
             var entity = await table.GetEntityIfExistsAsync<UserExpenseEntity>(PartitionKey, user.Id);
 
             if (entity?.HasValue == true && entity.Value?.Expenses is byte[] expensesBytes)
@@ -46,7 +50,7 @@ public class TableStorageRepository : IRepository
     {
         try
         {
-            var table = await GetExpensesTable();
+            var table = await tableClientFactory.GetExpensesTable();
             var entity = CreateEntity(user, data);
             await table.AddEntityAsync(entity);
         }
@@ -55,15 +59,6 @@ public class TableStorageRepository : IRepository
             log.LogError($"Unable to add data to storage: {ex}");
             throw;
         }
-    }
-
-    private static async Task<TableClient> GetExpensesTable()
-    {
-        var connectionString = Environment.GetEnvironmentVariable(ConnectionStringEnvVariable);
-        var client = new TableServiceClient(connectionString);
-        TableClient tableClient = client.GetTableClient(tableName: TableName);
-        await tableClient.CreateIfNotExistsAsync();
-        return tableClient;
     }
 
     private static UserExpenseEntity CreateEntity(string user, UserExpenses data)

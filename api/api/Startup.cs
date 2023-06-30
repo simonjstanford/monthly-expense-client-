@@ -6,6 +6,7 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Repository;
+using MonthlyExpenses.Api.Repository.Repository;
 
 [assembly: FunctionsStartup(typeof(MonthlyExpenses.Api.Startup))]
 
@@ -22,6 +23,7 @@ namespace MonthlyExpenses.Api
             builder.Services.AddLogging();
             builder.Services.AddSingleton<IRepository, TableStorageRepository>();
             builder.Services.AddSingleton<IAuthenticator, OAuthAuthenticator>();
+            builder.Services.AddSingleton<ITableClientFactory, TableClientFactory>();
         }
     }
 }
