@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace api.Test.Fakes;
+namespace MonthlyExpenses.Api.Test.Fakes;
 
 internal static class FakeClaimsPrincipal
 {

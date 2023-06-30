@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
 
-namespace MonthlyExpenses.Api;
+namespace MonthlyExpenses.Api.Authentication;
 
 /// <summary>
 /// Authenticates a user using OAuth2.

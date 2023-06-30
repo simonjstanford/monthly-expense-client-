@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using MonthlyExpenses.Api;
+using MonthlyExpenses.Api.Authentication;
 using Moq;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace api.Test.Fakes;
+namespace MonthlyExpenses.Api.Test.Fakes;
 
 public static class FakeHttpRequests
 {

@@ -1,12 +1,12 @@
-using api.Test.Fakes;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using MonthlyExpenses.Api;
+using MonthlyExpenses.Api.Authentication;
 using MonthlyExpenses.Api.Models;
+using MonthlyExpenses.Api.Test.Fakes;
 using Moq;
 
-namespace api.Test;
+namespace MonthlyExpenses.Api.Test;
 
 public class OAuthAuthenticator_AuthenticateRequest
 {

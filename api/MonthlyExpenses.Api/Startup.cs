@@ -4,6 +4,7 @@
 
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using MonthlyExpenses.Api.Authentication;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Repository;
 using MonthlyExpenses.Api.Repository.Repository;
