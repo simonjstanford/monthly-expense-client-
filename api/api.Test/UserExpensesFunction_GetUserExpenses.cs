@@ -25,7 +25,7 @@ namespace api.Test
         public async Task GetUserExpenses_WhenRepositoryThrowsException_ShouldReturnInternalServerErrorResult()
         {
             var (sut, repo, _) = Setup();
-            repo.Setup(x => x.GetUserExpenses(It.IsAny<string>(), It.IsAny<ILogger>())).Throws<Exception>();
+            repo.Setup(x => x.GetUserExpenses(It.IsAny<User>(), It.IsAny<ILogger>())).Throws<Exception>();
             var result = await GetUserExpenses(sut);
             result.Should().BeOfType<InternalServerErrorResult>();
         }
@@ -34,7 +34,7 @@ namespace api.Test
         public async Task GetUserExpenses_WhenRepositoryReturnsNull_ShouldReturnNotFoundResult()
         {
             var (sut, repo, _) = Setup();
-            repo.Setup(x => x.GetUserExpenses(It.IsAny<string>(), It.IsAny<ILogger>())).Returns(Task.FromResult<UserExpenses>(null!));
+            repo.Setup(x => x.GetUserExpenses(It.IsAny<User>(), It.IsAny<ILogger>())).Returns(Task.FromResult<UserExpenses>(null!));
             var result = await GetUserExpenses(sut);
             result.Should().BeOfType<NotFoundResult>();
         }
@@ -44,7 +44,7 @@ namespace api.Test
         {
             var (sut, repo, _) = Setup();
             var data = new UserExpenses();
-            repo.Setup(x => x.GetUserExpenses(It.IsAny<string>(), It.IsAny<ILogger>())).Returns(Task.FromResult(data));
+            repo.Setup(x => x.GetUserExpenses(It.IsAny<User>(), It.IsAny<ILogger>())).Returns(Task.FromResult(data));
             var result = await GetUserExpenses(sut);
             result.Should().BeOfType<JsonResult>();
             ((JsonResult)result).Value.Should().Be(data);

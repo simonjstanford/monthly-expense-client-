@@ -2,6 +2,7 @@
 // Copyright (c) Simon Stanford. All rights reserved.
 // </copyright>
 
+using System;
 using System.Text.Json.Serialization;
 
 namespace MonthlyExpenses.Api.Models
@@ -11,6 +12,22 @@ namespace MonthlyExpenses.Api.Models
     /// </summary>
     public class UserExpenses
     {
+        public UserExpenses()
+            : this(string.Empty, Array.Empty<MonthData>())
+        {
+        }
+
+        public UserExpenses(string user)
+            : this(user, Array.Empty<MonthData>())
+        {
+        }
+
+        public UserExpenses(string user, MonthData[] months)
+        {
+            User = user;
+            Months = months;
+        }
+
         /// <summary>
         /// The readable name of the user.
         /// </summary>

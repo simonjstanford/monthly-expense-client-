@@ -5,6 +5,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using MonthlyExpenses.Api.Models;
 
 namespace MonthlyExpenses.Api.Interfaces
 {
@@ -16,7 +17,7 @@ namespace MonthlyExpenses.Api.Interfaces
         /// <summary>
         /// Authenticates a HTTP request.
         /// </summary>
-        /// <returns>The human readible name of the user.</returns>
-        Task<string> AuthenticateRequest(HttpRequest req, ILogger logger);
+        /// <returns>Information on the authenticated user.</returns>
+        Task<User> AuthenticateRequest(HttpRequest req, ILogger logger);
     }
 }

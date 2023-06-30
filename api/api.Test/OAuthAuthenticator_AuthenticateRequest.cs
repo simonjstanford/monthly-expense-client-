@@ -54,10 +54,10 @@ public class OAuthAuthenticator_AuthenticateRequest
     {
         var request = FakeHttpRequests.CreateRequestWithAuthenticatedClaim();
         var result = await TestAuthenticateRequest(request.Object);
-        result.Should().Be("Test User");
+        result.Name.Should().Be("Test User");
     }
 
-    private static Task<string> TestAuthenticateRequest(HttpRequest request)
+    private static Task<User> TestAuthenticateRequest(HttpRequest request)
     {
         var mockLogger = new Mock<ILogger>();
         var sut = new OAuthAuthenticator();

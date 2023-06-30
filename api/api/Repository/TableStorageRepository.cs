@@ -19,12 +19,12 @@ public class TableStorageRepository : IRepository
     private const string PartitionKey = "user-expense-data";
 
     /// <inheritdoc/>
-    public async Task<UserExpenses> GetUserExpenses(string user, ILogger log)
+    public async Task<UserExpenses> GetUserExpenses(User user, ILogger log)
     {
         try
         {
             var table = await GetExpensesTable();
-            var entity = await table.GetEntityIfExistsAsync<UserExpenseEntity>(PartitionKey, user);
+            var entity = await table.GetEntityIfExistsAsync<UserExpenseEntity>(PartitionKey, user.Id);
 
             if (entity?.HasValue == true && entity.Value?.Expenses is byte[] expensesBytes)
             {
@@ -32,7 +32,7 @@ public class TableStorageRepository : IRepository
             }
             else
             {
-                throw new Exception($"No expense data found for {user}");
+                return new UserExpenses(user.Name);
             }
         }
         catch (Exception ex)

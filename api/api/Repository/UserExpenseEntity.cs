@@ -5,7 +5,6 @@
 using System;
 using Azure;
 using Azure.Data.Tables;
-using MonthlyExpenses.Api.Models;
 
 namespace MonthlyExpenses.Api.Repository;
 

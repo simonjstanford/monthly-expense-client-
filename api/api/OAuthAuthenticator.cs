@@ -25,9 +25,10 @@ namespace MonthlyExpenses.Api;
 public class OAuthAuthenticator : IAuthenticator
 {
     public const string PrincipalHeader = "x-ms-client-principal";
+    public const string NameIdentifier = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
 
     /// <inheritdoc/>
-    public Task<string> AuthenticateRequest(HttpRequest req, ILogger logger)
+    public Task<User> AuthenticateRequest(HttpRequest req, ILogger logger)
     {
         AssertRequestNotNull(req);
         logger.LogInformation("Getting Claims Principal");
@@ -35,8 +36,10 @@ public class OAuthAuthenticator : IAuthenticator
         AssertClientPrincipalHasUserRoles(clientPrincipal);
         var claimsPrincipal = CreateClaimsPrincipal(clientPrincipal);
         AssertIsAuthenticated(claimsPrincipal);
-        logger.LogInformation($"Principal {claimsPrincipal.Identity.Name} is authorised for monthexpenses GET");
-        return Task.FromResult(claimsPrincipal.Identity.Name);
+        var name = claimsPrincipal.Identity.Name;
+        var userId = GetUniqueName(claimsPrincipal);
+        logger.LogInformation($"Principal {name} ({userId}) is authorised for monthexpenses GET");
+        return Task.FromResult(new User(userId, name));
     }
 
     private static void AssertRequestNotNull(HttpRequest req)
@@ -86,5 +89,18 @@ public class OAuthAuthenticator : IAuthenticator
             throw new ClientAuthenticationException(
                 $"Principal {claimsPrincipal.Identity.Name} is not authorised: {claimsPrincipal.Identity.IsAuthenticated}, {claimsPrincipal.IsInRole("authenticated")}");
         }
+    }
+
+    private static string GetUniqueName(ClaimsPrincipal claimsPrincipal)
+    {
+        var type = claimsPrincipal.Identity?.AuthenticationType;
+        var identifier = claimsPrincipal.Claims?.FirstOrDefault(x => x.Type == NameIdentifier)?.Value;
+
+        if (!string.IsNullOrEmpty(type) && !string.IsNullOrEmpty(identifier))
+        {
+            return $"{type}-{identifier}";
+        }
+
+        throw new ClientAuthenticationException($"Unable to create unique name with type '{type}' and identifier '{identifier}'");
     }
 }
