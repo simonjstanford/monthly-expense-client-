@@ -3,14 +3,16 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using System.Text.Json.Serialization;
+using YamlDotNet.Core;
 
 namespace MonthlyExpenses.Api.Models
 {
     /// <summary>
     /// Stores all a user's expense data.
     /// </summary>
-    public class UserExpenses
+    public sealed class UserExpenses : IEquatable<UserExpenses>
     {
         public UserExpenses()
             : this(string.Empty, Array.Empty<MonthData>())
@@ -39,5 +41,60 @@ namespace MonthlyExpenses.Api.Models
         /// </summary>
         [JsonPropertyName("months")]
         public MonthData[] Months { get; set; }
+
+        public static bool operator ==(UserExpenses expense1, UserExpenses expense2)
+        {
+            if (((object)expense1) == null || ((object)expense2) == null)
+            {
+                return Equals(expense1, expense2);
+            }
+
+            return expense1.Equals(expense2);
+        }
+
+        public static bool operator !=(UserExpenses expense1, UserExpenses expense2)
+        {
+            if (((object)expense1) == null || ((object)expense2) == null)
+            {
+                return !Equals(expense1, expense2);
+            }
+
+            return !expense1.Equals(expense2);
+        }
+
+        public bool Equals(UserExpenses other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (Equals(User, other.User) && Months?.SequenceEqual(other.Months) == true)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public override bool Equals(object obj) => Equals(obj as UserExpenses);
+
+        public override int GetHashCode()
+        {
+            var hash = default(HashCode);
+            hash.Add(User);
+
+            foreach (var month in Months)
+            {
+                hash.Add(month);
+            }
+
+            return hash.ToHashCode();
+        }
     }
 }
