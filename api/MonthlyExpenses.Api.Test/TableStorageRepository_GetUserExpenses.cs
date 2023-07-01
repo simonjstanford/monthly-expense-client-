@@ -13,26 +13,54 @@ namespace MonthlyExpenses.Api.Test;
 public class TableStorageRepository_GetUserExpenses
 {
     private const string EntityId = "123";
-    private const string UsreName = "Test User";
+    private const string UserName = "Test User";
 
     [Fact]
     public async Task GetUserExpenses_ShouldReturnExpenseData()
     {
         var (sut, table) = Setup();
         var expenses = CreateExpenses();
-
         SetGetEntityResponse(table, expenses);
-
         var result = await GetUserExpenses(sut);
         result.Should().BeOfType<UserExpenses>();
         result.Should().Be(expenses);
     }
 
+    [Fact]
+    public async Task GetUserExpenses_WhenNoExpenesDataFound_ShouldReturnEmptyObject()
+    {
+        var (sut, table) = Setup();
+        SetGetEntityResponse(table, null!);
+        var result = await GetUserExpenses(sut);
+        result.Should().BeOfType<UserExpenses>();
+        result.User.Should().Be(UserName);
+        result.Months.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public void GetUserExpenses_WhenExceptionThrown_ShouldRaiseException()
+    {
+        var (sut, table) = Setup();
+        table.Setup(x => x.GetEntityIfExistsAsync<UserExpenseEntity>(It.IsAny<string>(), EntityId)).Throws<Exception>();
+        Action action = () => GetUserExpenses(sut).Wait();
+        action.Should().Throw<Exception>();
+    }
+
     private static void SetGetEntityResponse(Mock<ITableClient> table, UserExpenses expenses)
     {
         var entity = new UserExpenseEntity();
-        entity.Expenses = JsonSerializer.Serialize(expenses);
-        NullableResponse<UserExpenseEntity> nullableResponse = new FakeResponse<UserExpenseEntity>(true, entity);
+        NullableResponse<UserExpenseEntity> nullableResponse;
+
+        if (expenses != null)
+        { 
+            entity.Expenses = JsonSerializer.Serialize(expenses);
+            nullableResponse = new FakeResponse<UserExpenseEntity>(true, entity);
+        }
+        else
+        {
+            nullableResponse = new FakeResponse<UserExpenseEntity>(false, null!);
+        }
+
         table.Setup(x => x.GetEntityIfExistsAsync<UserExpenseEntity>(It.IsAny<string>(), EntityId)).Returns(Task.FromResult(nullableResponse));
     }
 
@@ -47,7 +75,7 @@ public class TableStorageRepository_GetUserExpenses
 
     private static Task<UserExpenses> GetUserExpenses(TableStorageRepository sut)
     {
-        var user = new User(EntityId, UsreName);
+        var user = new User(EntityId, UserName);
         var logger = new Mock<ILogger>();
         var result = sut.GetUserExpenses(user, logger.Object);
         return result;
@@ -57,7 +85,7 @@ public class TableStorageRepository_GetUserExpenses
     {
         return new UserExpenses
         {
-            User = UsreName,
+            User = UserName,
             Months = new[]
             {
                 new MonthData
