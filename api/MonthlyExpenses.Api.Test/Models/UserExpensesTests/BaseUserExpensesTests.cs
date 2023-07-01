@@ -2,7 +2,7 @@
 using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Test.Helpers;
 
-namespace MonthlyExpenses.Api.Test.UserExpensesTests;
+namespace MonthlyExpenses.Api.Test.Models.UserExpensesTests;
 
 public abstract class BaseUserExpensesTests
 {
