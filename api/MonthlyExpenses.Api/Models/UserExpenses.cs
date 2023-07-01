@@ -52,15 +52,7 @@ namespace MonthlyExpenses.Api.Models
             return expense1.Equals(expense2);
         }
 
-        public static bool operator !=(UserExpenses expense1, UserExpenses expense2)
-        {
-            if (((object)expense1) == null || ((object)expense2) == null)
-            {
-                return !Equals(expense1, expense2);
-            }
-
-            return !expense1.Equals(expense2);
-        }
+        public static bool operator !=(UserExpenses expense1, UserExpenses expense2) => !(expense1 == expense2);
 
         public bool Equals(UserExpenses other)
         {

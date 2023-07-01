@@ -5,6 +5,7 @@ using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Repository;
 using MonthlyExpenses.Api.Repository.Repository;
 using MonthlyExpenses.Api.Test.Fakes;
+using MonthlyExpenses.Api.Test.Helpers;
 using Moq;
 using System.Text.Json;
 
@@ -19,7 +20,7 @@ public class TableStorageRepository_GetUserExpenses
     public async Task GetUserExpenses_ShouldReturnExpenseData()
     {
         var (sut, table) = Setup();
-        var expenses = CreateExpenses();
+        var expenses = Creator.CreateExpenses(UserName);
         SetGetEntityResponse(table, expenses);
         var result = await GetUserExpenses(sut);
         result.Should().BeOfType<UserExpenses>();
@@ -79,33 +80,5 @@ public class TableStorageRepository_GetUserExpenses
         var logger = new Mock<ILogger>();
         var result = sut.GetUserExpenses(user, logger.Object);
         return result;
-    }
-
-    private static UserExpenses CreateExpenses()
-    {
-        return new UserExpenses
-        {
-            User = UserName,
-            Months = new[]
-            {
-                new MonthData
-                {
-                    MonthStart = new DateTime(2023, 6, 1),
-                    Income = new Dictionary<string, decimal>
-                    {
-                        { "Salary", 2000 },
-                        { "Overtime", 200 },
-                    },
-                    Outgoings = new Dictionary<string, decimal>
-                    {
-                        { "Rent", 500 },
-                        { "Car", 100 },
-                        { "Phone", 30 },
-                        { "Internet", 40 },
-                        { "Food", 300 },
-                    },
-                },
-            },
-        };
     }
 }
