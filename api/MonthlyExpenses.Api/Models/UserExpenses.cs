@@ -5,7 +5,6 @@
 using System;
 using System.Linq;
 using System.Text.Json.Serialization;
-using YamlDotNet.Core;
 
 namespace MonthlyExpenses.Api.Models
 {

@@ -1,5 +1,4 @@
 ﻿using MonthlyExpenses.Api.Models;
-using System;
 
 namespace MonthlyExpenses.Api.Test.UserExpensesTests
 {
