@@ -34,4 +34,14 @@ export class UserExpensesComponent {
       this.expenses = data;
     });
   }
+
+  public onSave() {
+    if (this.expenses) {
+      this.apiService.saveUserData(this.expenses).subscribe((resp) => {
+        console.log(resp);
+      });
+    } else {
+      console.log("No expenses to save!")
+    }
+  }
 }

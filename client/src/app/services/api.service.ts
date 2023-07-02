@@ -13,4 +13,8 @@ export class ApiService {
   getUserData() {
     return this.http.get<UserExpenses>('/api/user/data');
   }
+
+  saveUserData(data: UserExpenses) {
+    return this.http.post('/api/user/data', data);
+  }
 }

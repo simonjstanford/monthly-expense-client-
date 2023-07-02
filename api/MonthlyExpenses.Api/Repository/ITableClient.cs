@@ -15,4 +15,7 @@ public interface ITableClient
 
     Task<NullableResponse<T>> GetEntityIfExistsAsync<T>(string partitionKey, string id)
         where T : class, ITableEntity;
+
+    Task<Response> UpsertEntityAsync<T>(T entity)
+        where T : ITableEntity;
 }

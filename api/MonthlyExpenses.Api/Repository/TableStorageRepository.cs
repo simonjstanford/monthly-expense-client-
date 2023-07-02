@@ -33,7 +33,7 @@ public class TableStorageRepository : IRepository
 
             if (entity?.HasValue == true && entity.Value?.Expenses is string expensesJson)
             {
-                return JsonSerializer.Deserialize<UserExpenses>(expensesJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return JsonSerializer.Deserialize<UserExpenses>(expensesJson);
             }
             else
             {
@@ -48,13 +48,13 @@ public class TableStorageRepository : IRepository
     }
 
     /// <inheritdoc/>
-    public async Task SaveUserExpenses(string user, UserExpenses data, ILogger log)
+    public async Task SaveUserExpenses(User user, UserExpenses data, ILogger log)
     {
         try
         {
             var table = await tableClientFactory.GetExpensesTable();
             var entity = CreateEntity(user, data);
-            await table.AddEntityAsync(entity);
+            await table.UpsertEntityAsync(entity);
         }
         catch (Exception ex)
         {
@@ -63,11 +63,11 @@ public class TableStorageRepository : IRepository
         }
     }
 
-    private static UserExpenseEntity CreateEntity(string user, UserExpenses data)
+    private static UserExpenseEntity CreateEntity(User user, UserExpenses data)
     {
         return new UserExpenseEntity()
         {
-            RowKey = user,
+            RowKey = user.Id,
             PartitionKey = PartitionKey,
             Expenses = JsonSerializer.Serialize(data),
         };

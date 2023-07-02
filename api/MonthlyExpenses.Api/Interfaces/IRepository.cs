@@ -21,6 +21,6 @@ namespace MonthlyExpenses.Api.Interfaces
         /// <summary>
         /// Saves the given expense data for the specified user.
         /// </summary>
-        Task SaveUserExpenses(string user, UserExpenses data, ILogger log);
+        Task SaveUserExpenses(User user, UserExpenses data, ILogger log);
     }
 }

@@ -28,4 +28,10 @@ public class TableClientWrapper : ITableClient
     {
         return tableClient.GetEntityIfExistsAsync<T>(partitionKey, id);
     }
+
+    public Task<Response> UpsertEntityAsync<T>(T entity)
+        where T : ITableEntity
+    {
+        return tableClient.UpsertEntityAsync(entity);
+    }
 }

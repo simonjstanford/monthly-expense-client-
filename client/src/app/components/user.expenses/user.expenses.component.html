@@ -1,17 +1,21 @@
 <div *ngIf="user && expenses">
     <h2>Hello {{expenses.user}}!</h2>
 
-    <div>
-        <h3>Outgoings</h3>
-        <div *ngFor="let item of expenses.months[0].outgoings | keyvalue">
-            <span>{{item.key}}: {{item.value}}</span>
+    <div *ngFor="let month of expenses.months">
+        <div *ngIf="month.outgoings">
+            <h3>Outgoings</h3>
+            <div *ngFor="let item of month.outgoings | keyvalue">
+                <span>{{item.key}}: {{item.value}}</span>
+            </div>
+        </div>
+    
+        <div *ngIf="month.income">
+            <h3>Income</h3>
+            <div *ngFor="let item of month.income | keyvalue">
+                <span>{{item.key}}: {{item.value}}</span>
+            </div>
         </div>
     </div>
 
-    <div>
-        <h3>Income</h3>
-        <div *ngFor="let item of expenses.months[0].income | keyvalue">
-            <span>{{item.key}}: {{item.value}}</span>
-        </div>
-    </div>
+    <button (click)="onSave()">Save</button>
 </div>

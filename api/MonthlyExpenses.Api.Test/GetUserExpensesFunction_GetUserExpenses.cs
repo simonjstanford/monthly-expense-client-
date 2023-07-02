@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MonthlyExpenses.Api.Functions;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
 using Moq;
@@ -9,7 +10,7 @@ using System.Web.Http;
 
 namespace MonthlyExpenses.Api.Test;
 
-public class UserExpensesFunction_GetUserExpenses
+public class GetUserExpensesFunction_GetUserExpenses
 {
     [Fact]
     public async Task GetUserExpenses_WhenAutenticatorThrowsClientAuthenticationException_ShouldReturnUnauthorizedResult()
@@ -49,15 +50,15 @@ public class UserExpensesFunction_GetUserExpenses
         ((JsonResult)result).Value.Should().Be(data);
     }
 
-    private static (UserExpensesFunction sut, Mock<IRepository> repository, Mock<IAuthenticator> authenticator) Setup()
+    private static (GetUserExpensesFunction sut, Mock<IRepository> repository, Mock<IAuthenticator> authenticator) Setup()
     {
         var repository = new Mock<IRepository>();
         var authenticator = new Mock<IAuthenticator>();
-        var sut = new UserExpensesFunction(repository.Object, authenticator.Object);
+        var sut = new GetUserExpensesFunction(repository.Object, authenticator.Object);
         return (sut, repository, authenticator);
     }
 
-    private static async Task<IActionResult> GetUserExpenses(UserExpensesFunction sut)
+    private static async Task<IActionResult> GetUserExpenses(GetUserExpensesFunction sut)
     {
         var logger = new Mock<ILogger>();
         var result = await sut.GetUserExpenses(null!, logger.Object);
