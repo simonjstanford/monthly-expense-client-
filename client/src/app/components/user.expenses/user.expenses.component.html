@@ -4,15 +4,15 @@
     <div *ngFor="let month of expenses.months">
         <div *ngIf="month.outgoings">
             <h3>Outgoings</h3>
-            <div *ngFor="let item of month.outgoings | keyvalue">
-                <span>{{item.key}}: {{item.value}}</span>
+            <div *ngFor="let item of month.outgoings">
+                <span>{{item.name}}: {{item.value}}</span>
             </div>
         </div>
     
         <div *ngIf="month.income">
             <h3>Income</h3>
-            <div *ngFor="let item of month.income | keyvalue">
-                <span>{{item.key}}: {{item.value}}</span>
+            <div *ngFor="let item of month.income">
+                <span>{{item.name}}: {{item.value}}</span>
             </div>
         </div>
     </div>

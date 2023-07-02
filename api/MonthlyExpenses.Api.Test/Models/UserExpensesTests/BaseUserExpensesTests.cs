@@ -71,7 +71,7 @@ public abstract class BaseUserExpensesTests
     {
         var expense1 = Creator.CreateExpenses("User1");
         var expense2 = Creator.CreateExpenses("User1");
-        expense2.Months[0].Income["Salary"] = 40;
+        expense2.Months[0].Income.First(x => x.Name == "Salary").Value = 40;
         var result = expense1.Equals(expense2);
         result.Should().BeFalse();
     }

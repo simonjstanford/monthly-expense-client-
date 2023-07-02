@@ -21,18 +21,18 @@ internal class Creator
         return new MonthData
         {
             MonthStart = new DateTime(2023, 6, 1),
-            Income = new Dictionary<string, decimal>
+            Income = new[]
             {
-                { "Salary", 2000 },
-                { "Overtime", 200 },
+                new Expense("Salary", 2000),
+                new Expense("Overtime", 200),
             },
-            Outgoings = new Dictionary<string, decimal>
+            Outgoings = new[]
             {
-                { "Rent", 500 },
-                { "Car", 100 },
-                { "Phone", 30 },
-                { "Internet", 40 },
-                { "Food", 300 },
+                new Expense("Rent", 500),
+                new Expense("Car", 100),
+                new Expense("Phone", 30),
+                new Expense("Internet", 40),
+                new Expense("Food", 300),
             },
         };
     }

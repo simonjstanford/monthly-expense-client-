@@ -21,13 +21,13 @@ namespace MonthlyExpenses.Api.Models
         /// The income that is being received this month.
         /// </summary>
         [JsonPropertyName("income")]
-        public Dictionary<string, decimal> Income { get; set; }
+        public Expense[] Income { get; set; }
 
         /// <summary>
         /// The outgoings that are paid out this month.
         /// </summary>
         [JsonPropertyName("outgoings")]
-        public Dictionary<string, decimal> Outgoings { get; set; }
+        public Expense[] Outgoings { get; set; }
 
         public static bool operator ==(MonthData data1, MonthData data2)
         {
