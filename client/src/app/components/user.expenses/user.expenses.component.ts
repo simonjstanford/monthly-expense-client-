@@ -94,4 +94,16 @@ export class UserExpensesComponent {
       outgoings: []
     };
   }
+
+  public removeExpense(data: Expense[], item: Expense) {
+    if (!data) {
+      console.log("No list to add expense!");
+      return;
+    }
+
+    const index = data.indexOf(item, 0);
+    if (index > -1) {
+      data.splice(index, 1);
+    }
+  }
 }

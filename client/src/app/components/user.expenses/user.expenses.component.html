@@ -2,27 +2,37 @@
     <h2>Hello {{expenses.user}}!</h2>
 
     <div *ngFor="let month of expenses.months">
-        <span>{{month.monthStart}}</span>
+        <h3>{{month.monthStart | date :'MMM y'}}</h3>
+
+        <ul>
+            <li><input [(ngModel)]="month.monthStart" type="date"></li>
+            <li><button (click)="removeMonth(month)">Remove Month</button></li>
+        </ul>
 
         <div *ngIf="month.outgoings">
-            <h3>Outgoings</h3>
+            <h4>Outgoings</h4>
             <div *ngFor="let item of month.outgoings">
-                <span>{{item.name}}: {{item.value}}</span>
+                <input [(ngModel)]="item.name" type="text">
+                <input [(ngModel)]="item.value" type="number">
+                <button (click)="removeExpense(month.outgoings, item)">Remove</button>
             </div>
             <button (click)="addExpense(month.outgoings)">Add Outgoing</button>
         </div>
     
         <div *ngIf="month.income">
-            <h3>Income</h3>
+            <h4>Income</h4>
             <div *ngFor="let item of month.income">
-                <span>{{item.name}}: {{item.value}}</span>
+                <input [(ngModel)]="item.name" type="text">
+                <input [(ngModel)]="item.value" type="number">
+                <button (click)="removeExpense(month.outgoings, item)">Remove</button>
             </div>
             <button (click)="addExpense(month.income)">Add Income</button>
         </div>
-
-        <button (click)="removeMonth(month)">Remove Month</button>
     </div>
 
-    <button (click)="addMonth()">Add Month</button>
-    <button (click)="onSave()">Save</button>
+    <h4>Operations</h4>
+    <ul>
+        <li><button (click)="addMonth()">Add Month</button></li>
+        <li><button (click)="onSave()">Save</button></li>   
+    </ul>
 </div>
