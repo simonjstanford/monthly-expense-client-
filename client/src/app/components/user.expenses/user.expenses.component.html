@@ -2,11 +2,14 @@
     <h2>Hello {{expenses.user}}!</h2>
 
     <div *ngFor="let month of expenses.months">
+        <span>{{month.monthStart}}</span>
+
         <div *ngIf="month.outgoings">
             <h3>Outgoings</h3>
             <div *ngFor="let item of month.outgoings">
                 <span>{{item.name}}: {{item.value}}</span>
             </div>
+            <button (click)="addExpense(month.outgoings)">Add Outgoing</button>
         </div>
     
         <div *ngIf="month.income">
@@ -14,8 +17,12 @@
             <div *ngFor="let item of month.income">
                 <span>{{item.name}}: {{item.value}}</span>
             </div>
+            <button (click)="addExpense(month.income)">Add Income</button>
         </div>
+
+        <button (click)="removeMonth(month)">Remove Month</button>
     </div>
 
+    <button (click)="addMonth()">Add Month</button>
     <button (click)="onSave()">Save</button>
 </div>
