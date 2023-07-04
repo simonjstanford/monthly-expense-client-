@@ -3,19 +3,15 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Repository;
-using MonthlyExpenses.Api.Repository.Repository;
 using MonthlyExpenses.Api.Test.Fakes;
 using MonthlyExpenses.Api.Test.Helpers;
 using Moq;
 using System.Text.Json;
 
-namespace MonthlyExpenses.Api.Test;
+namespace MonthlyExpenses.Api.Test.Repository;
 
-public class TableStorageRepositoryTests
+public class TableStorageRepository_GetUserExpenses : TableStorageRepositoryBase
 {
-    private const string EntityId = "123";
-    private const string UserName = "Test User";
-
     [Fact]
     public async Task GetUserExpenses_ShouldReturnExpenseData()
     {
@@ -53,7 +49,7 @@ public class TableStorageRepositoryTests
         NullableResponse<UserExpenseEntity> nullableResponse;
 
         if (expenses != null)
-        { 
+        {
             entity.Expenses = JsonSerializer.Serialize(expenses);
             nullableResponse = new FakeResponse<UserExpenseEntity>(true, entity);
         }
@@ -65,18 +61,9 @@ public class TableStorageRepositoryTests
         table.Setup(x => x.GetEntityIfExistsAsync<UserExpenseEntity>(It.IsAny<string>(), EntityId)).Returns(Task.FromResult(nullableResponse));
     }
 
-    private static (TableStorageRepository sut, Mock<ITableClient> table) Setup()
-    {
-        var factory = new Mock<ITableClientFactory>();
-        var table = new Mock<ITableClient>();
-        factory.Setup(x => x.GetExpensesTable()).Returns(Task.FromResult(table.Object));
-        var sut = new TableStorageRepository(factory.Object);
-        return (sut, table);
-    }
-
     private static Task<UserExpenses> GetUserExpenses(TableStorageRepository sut)
     {
-        var user = new User(EntityId, UserName);
+        var user = CreateUser();
         var logger = new Mock<ILogger>();
         var result = sut.GetUserExpenses(user, logger.Object);
         return result;
