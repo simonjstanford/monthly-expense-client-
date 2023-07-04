@@ -47,7 +47,7 @@ public abstract class BaseMonthDataTests
     {
         var data1 = Creator.CreateMonthData();
         var data2 = Creator.CreateMonthData();
-        data2.Income.First(x => x.Name == "Salary").Value = 40;
+        data2.Income[0] = new Expense("Salary", 40);
         var result = data1.Equals(data2);
         result.Should().BeFalse();
     }
@@ -57,7 +57,7 @@ public abstract class BaseMonthDataTests
     {
         var data1 = Creator.CreateMonthData();
         var data2 = Creator.CreateMonthData();
-        data2.Outgoings.First(x => x.Name == "Rent").Value = 1000;
+        data2.Outgoings[0] = new Expense("Rent", 1000);
         var result = data1.Equals(data2);
         result.Should().BeFalse();
     }
