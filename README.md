@@ -11,7 +11,7 @@ This project uses the following tech:
 
 - Angular in TypeScript for the front end
 - Azure Functions in C# as the API
-- Azure Table Storage as the document database
+- Azure Table Storage as the document database, encrypted at rest
 - Deployed to Azure Static Web Apps using a GitHub Action CI/CD pipeline
 - OAuth2 for authentication
 - Application Insights for logging
