@@ -1,4 +1,8 @@
-﻿using Azure;
+﻿// <copyright file="FakeResponse.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
+using Azure;
 
 namespace MonthlyExpenses.Api.Test.Fakes
 {

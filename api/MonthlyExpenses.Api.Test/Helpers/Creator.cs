@@ -1,8 +1,12 @@
-﻿using MonthlyExpenses.Api.Models;
+﻿// <copyright file="Creator.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
+using MonthlyExpenses.Api.Models;
 
 namespace MonthlyExpenses.Api.Test.Helpers;
 
-internal class Creator
+internal static class Creator
 {
     internal static UserExpenses CreateExpenses(string userName)
     {

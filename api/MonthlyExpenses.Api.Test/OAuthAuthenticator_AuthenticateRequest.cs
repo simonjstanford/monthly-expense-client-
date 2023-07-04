@@ -1,3 +1,7 @@
+// <copyright file="OAuthAuthenticator_AuthenticateRequest.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

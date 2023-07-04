@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿// <copyright file="BaseMonthDataTests.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
+using FluentAssertions;
 using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Test.Helpers;
 

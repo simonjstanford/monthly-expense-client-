@@ -1,4 +1,9 @@
-﻿using FluentAssertions;
+﻿// <copyright file="GetUserExpensesFunction_GetUserExpenses.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
+using System.Web.Http;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -6,7 +11,6 @@ using MonthlyExpenses.Api.Functions;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
 using Moq;
-using System.Web.Http;
 
 namespace MonthlyExpenses.Api.Test;
 
@@ -50,7 +54,7 @@ public class GetUserExpensesFunction_GetUserExpenses
         ((JsonResult)result).Value.Should().Be(data);
     }
 
-    private static (GetUserExpensesFunction sut, Mock<IRepository> repository, Mock<IAuthenticator> authenticator) Setup()
+    private static (GetUserExpensesFunction Sut, Mock<IRepository> Repository, Mock<IAuthenticator> Authenticator) Setup()
     {
         var repository = new Mock<IRepository>();
         var authenticator = new Mock<IAuthenticator>();

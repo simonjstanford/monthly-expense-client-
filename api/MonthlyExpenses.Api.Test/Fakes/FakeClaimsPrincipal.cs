@@ -1,6 +1,10 @@
-﻿using MonthlyExpenses.Api.Models;
+﻿// <copyright file="FakeClaimsPrincipal.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
 using System.Text;
 using System.Text.Json;
+using MonthlyExpenses.Api.Models;
 
 namespace MonthlyExpenses.Api.Test.Fakes;
 
@@ -35,7 +39,7 @@ internal static class FakeClaimsPrincipal
             principal.UserRoles = new List<string>
             {
                 "anonymous",
-                "authenticated"
+                "authenticated",
             };
         }
         else

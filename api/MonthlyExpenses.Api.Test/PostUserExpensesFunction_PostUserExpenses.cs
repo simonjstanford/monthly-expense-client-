@@ -1,4 +1,9 @@
-﻿using FluentAssertions;
+﻿// <copyright file="PostUserExpensesFunction_PostUserExpenses.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
+using System.Web.Http;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -7,7 +12,6 @@ using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Test.Fakes;
 using Moq;
-using System.Web.Http;
 
 namespace MonthlyExpenses.Api.Test;
 
@@ -16,7 +20,7 @@ public class PostUserExpensesFunction_PostUserExpenses
     [Fact]
     public async Task PostUserExpenses_WhenNotAuthenticated_ShouldReturnUnauthorizedResult()
     {
-        var (sut, repository, authenticator) = Setup();
+        var (sut, _, authenticator) = Setup();
         authenticator.Setup(x => x.AuthenticateRequest(It.IsAny<HttpRequest>(), It.IsAny<ILogger>())).Throws<ClientAuthenticationException>();
         var request = FakeHttpRequests.CreateRequestWithoutHeader();
         var result = await PostUserExpenses(sut, request.Object);
@@ -77,7 +81,7 @@ public class PostUserExpensesFunction_PostUserExpenses
         return new UserExpenses() { User = "Test User" };
     }
 
-    private static (PostUserExpensesFunction sut, Mock<IRepository> repository, Mock<IAuthenticator> authenticator) Setup()
+    private static (PostUserExpensesFunction Sut, Mock<IRepository> Repository, Mock<IAuthenticator> Authenticator) Setup()
     {
         var repository = new Mock<IRepository>();
         var authenticator = new Mock<IAuthenticator>();

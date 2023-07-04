@@ -1,4 +1,9 @@
-﻿using Azure;
+﻿// <copyright file="TableStorageRepository_GetUserExpenses.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
+using System.Text.Json;
+using Azure;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Models;
@@ -6,7 +11,6 @@ using MonthlyExpenses.Api.Repository;
 using MonthlyExpenses.Api.Test.Fakes;
 using MonthlyExpenses.Api.Test.Helpers;
 using Moq;
-using System.Text.Json;
 
 namespace MonthlyExpenses.Api.Test.Repository;
 

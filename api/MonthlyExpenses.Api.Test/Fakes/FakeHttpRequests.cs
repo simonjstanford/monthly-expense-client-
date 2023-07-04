@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿// <copyright file="FakeHttpRequests.cs" company="Simon Stanford">
+// Copyright (c) Simon Stanford. All rights reserved.
+// </copyright>
+
+using System.Text;
+using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using MonthlyExpenses.Api.Authentication;
 using Moq;
-using System.Text;
-using System.Text.Json;
 
 namespace MonthlyExpenses.Api.Test.Fakes;
 
