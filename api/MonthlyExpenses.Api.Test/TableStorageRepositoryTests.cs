@@ -11,7 +11,7 @@ using System.Text.Json;
 
 namespace MonthlyExpenses.Api.Test;
 
-public class TableStorageRepository_GetUserExpenses
+public class TableStorageRepositoryTests
 {
     private const string EntityId = "123";
     private const string UserName = "Test User";
