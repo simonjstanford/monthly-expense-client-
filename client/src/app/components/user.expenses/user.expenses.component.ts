@@ -13,9 +13,14 @@ export class UserExpensesComponent {
   user: User | null;
   expenses: UserExpenses | null;
 
+  saved: boolean;
+  errorSaving: boolean;
+
   constructor(private oauthService: OauthServiceService, private apiService: ApiService) {
     this.user = null;
     this.expenses = null;
+    this.saved = false;
+    this.errorSaving = false;
   }
 
   ngOnInit() {
@@ -27,22 +32,29 @@ export class UserExpensesComponent {
 
   fetchUserData() {
     if (!this.user) {
+      console.log("Can't fetch data as no user!");
       return;
     }
 
-    this.apiService.getUserData().subscribe((data) => {
-      this.expenses = data;
+    this.apiService.getUserData().subscribe({
+      next: (data) => this.expenses = data,
+      error: (e) => this.expenses = {
+        user: this.user?.userDetails ?? "",
+        months: [],
+      },
     });
   }
 
   public onSave() {
-    if (this.expenses) {
-      this.apiService.saveUserData(this.expenses).subscribe((resp) => {
-        console.log(resp);
-      });
-    } else {
+    if (!this.expenses) {
       console.log("No expenses to save!");
+      return;
     }
+
+    this.apiService.saveUserData(this.expenses).subscribe({
+      next: (resp) => this.saved = true,
+      error: (e) => this.errorSaving = true,
+    });
   }
 
   public addExpense(data: Expense[]) {

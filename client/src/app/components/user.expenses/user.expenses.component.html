@@ -33,6 +33,6 @@
     <h4>Operations</h4>
     <ul>
         <li><button (click)="addMonth()">Add Month</button></li>
-        <li><button (click)="onSave()">Save</button></li>   
+        <li><button (click)="onSave()">Save</button>  <span *ngIf="saved">Saved!</span><span *ngIf="errorSaving">Error!</span></li>   
     </ul>
 </div>
