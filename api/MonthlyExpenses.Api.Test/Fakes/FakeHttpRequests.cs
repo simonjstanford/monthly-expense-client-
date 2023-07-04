@@ -2,22 +2,16 @@
 using Microsoft.Extensions.Primitives;
 using MonthlyExpenses.Api.Authentication;
 using Moq;
-using Newtonsoft.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace MonthlyExpenses.Api.Test.Fakes;
 
 public static class FakeHttpRequests
 {
-    internal static Mock<HttpRequest> CreateMockRequest(IHeaderDictionary header, object? body = null)
+    internal static Mock<HttpRequest> CreateMockRequest(IHeaderDictionary header)
     {
         var mockRequest = new Mock<HttpRequest>();
-
-        if (body != null)
-        {
-            SetupRequestBody(body, mockRequest);
-        }
-
         SetupCustomRequestHeader(mockRequest, header);
         return mockRequest;
     }
@@ -54,6 +48,19 @@ public static class FakeHttpRequests
         return CreateMockRequestWithClaim(claim);
     }
 
+    internal static Mock<HttpRequest> CreateMockRequestWithBody(object? body, string contentType = "application/json")
+    {
+        var header = new Mock<IHeaderDictionary>();
+        var mockRequest = CreateMockRequest(header.Object);
+
+        if (body != null)
+        {
+            SetupRequestBody(contentType, body, mockRequest);
+        }
+
+        return mockRequest;
+    }
+
     private static Mock<HttpRequest> CreateMockRequestWithClaim(string claim)
     {
         var header = new Mock<IHeaderDictionary>();
@@ -62,14 +69,15 @@ public static class FakeHttpRequests
         return CreateMockRequest(header.Object);
     }
 
-    private static void SetupRequestBody(object? body, Mock<HttpRequest> mockRequest)
+    private static void SetupRequestBody(string contentType, object? body, Mock<HttpRequest> mockRequest)
     {
-        var json = JsonConvert.SerializeObject(body);
+        var json = JsonSerializer.Serialize(body);
         var byteArray = Encoding.ASCII.GetBytes(json);
         var httpRequestStream = new MemoryStream(byteArray);
         httpRequestStream.Flush();
         httpRequestStream.Position = 0;
         mockRequest.Setup(x => x.Body).Returns(httpRequestStream);
+        mockRequest.Setup(x => x.ContentType).Returns(contentType);
     }
 
     private static void SetupCustomRequestHeader(Mock<HttpRequest> mockRequest, IHeaderDictionary header)

@@ -42,24 +42,21 @@ public class PostUserExpensesFunction
         try
         {
             log.LogInformation("monthexpenses POST called");
-            var data = await GetUserExpense(req);
             var user = await authenticator.AuthenticateRequest(req, log);
+            var data = await GetUserExpense(req);
             await repository.SaveUserExpenses(user, data, log);
-
-            if (data != null)
-            {
-                log.LogInformation("monthexpenses POST completed");
-                return new JsonResult(data);
-            }
-            else
-            {
-                return new NotFoundResult();
-            }
+            log.LogInformation("monthexpenses POST completed");
+            return new OkResult();
         }
         catch (ClientAuthenticationException ex)
         {
             log.LogError(ex.Message);
             return new UnauthorizedResult();
+        }
+        catch (InvalidUserExpenseException ex)
+        {
+            log.LogError(ex.Message);
+            return new BadRequestResult();
         }
         catch (Exception ex)
         {
@@ -72,11 +69,18 @@ public class PostUserExpensesFunction
     {
         if (req.Body == null || !req.IsJsonContentType())
         {
-            throw new Exception("Content type is not JSON");
+            throw new InvalidUserExpenseException("Content type is not JSON");
         }
 
-        using var streamReader = new StreamReader(req.Body);
-        var body = await streamReader.ReadToEndAsync();
-        return JsonSerializer.Deserialize<UserExpenses>(body);
+        try
+        {
+            using var streamReader = new StreamReader(req.Body);
+            var body = await streamReader.ReadToEndAsync();
+            return JsonSerializer.Deserialize<UserExpenses>(body);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidUserExpenseException(ex.Message);
+        }
     }
 }
