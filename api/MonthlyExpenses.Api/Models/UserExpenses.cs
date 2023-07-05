@@ -3,8 +3,8 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using System.Text.Json.Serialization;
+using MonthlyExpenses.Api.Utils;
 
 namespace MonthlyExpenses.Api.Models;
 
@@ -41,6 +41,12 @@ public sealed class UserExpenses : IEquatable<UserExpenses>
     [JsonPropertyName("months")]
     public MonthData[] Months { get; set; }
 
+    /// <summary>
+    /// The periodic expenses that happen annually, e.g. Car tax.
+    /// </summary>
+    [JsonPropertyName("annual")]
+    public AnnualExpense[] AnnualExpenses { get; set; }
+
     public static bool operator ==(UserExpenses expense1, UserExpenses expense2)
     {
         if (((object)expense1) == null || ((object)expense2) == null)
@@ -65,7 +71,9 @@ public sealed class UserExpenses : IEquatable<UserExpenses>
             return true;
         }
 
-        if (Equals(User, other.User) && Months?.SequenceEqual(other.Months) == true)
+        if (Equals(User, other.User) &&
+            EnumerableHelpers.SequenceEqual(Months, other?.Months) &&
+            EnumerableHelpers.SequenceEqual(AnnualExpenses, other?.AnnualExpenses))
         {
             return true;
         }
@@ -83,6 +91,11 @@ public sealed class UserExpenses : IEquatable<UserExpenses>
         foreach (var month in Months)
         {
             hash.Add(month);
+        }
+
+        foreach (var annualExpense in AnnualExpenses)
+        {
+            hash.Add(annualExpense);
         }
 
         return hash.ToHashCode();

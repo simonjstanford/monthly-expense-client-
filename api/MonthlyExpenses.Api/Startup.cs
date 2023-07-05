@@ -11,20 +11,19 @@ using MonthlyExpenses.Api.Repository.Repository;
 
 [assembly: FunctionsStartup(typeof(MonthlyExpenses.Api.Startup))]
 
-namespace MonthlyExpenses.Api
+namespace MonthlyExpenses.Api;
+
+/// <summary>
+/// DI class for injecting interface implementations.
+/// </summary>
+public class Startup : FunctionsStartup
 {
-    /// <summary>
-    /// DI class for injecting interface implementations.
-    /// </summary>
-    public class Startup : FunctionsStartup
+    /// <inheritdoc/>
+    public override void Configure(IFunctionsHostBuilder builder)
     {
-        /// <inheritdoc/>
-        public override void Configure(IFunctionsHostBuilder builder)
-        {
-            builder.Services.AddLogging();
-            builder.Services.AddSingleton<IRepository, TableStorageRepository>();
-            builder.Services.AddSingleton<IAuthenticator, OAuthAuthenticator>();
-            builder.Services.AddSingleton<ITableClientFactory, TableClientFactory>();
-        }
+        builder.Services.AddLogging();
+        builder.Services.AddSingleton<IRepository, TableStorageRepository>();
+        builder.Services.AddSingleton<IAuthenticator, OAuthAuthenticator>();
+        builder.Services.AddSingleton<ITableClientFactory, TableClientFactory>();
     }
 }

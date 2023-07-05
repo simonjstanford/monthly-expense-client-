@@ -2,6 +2,7 @@
 // Copyright (c) Simon Stanford. All rights reserved.
 // </copyright>
 
+using MonthlyExpenses.Api.Enums;
 using MonthlyExpenses.Api.Models;
 
 namespace MonthlyExpenses.Api.Test.Helpers;
@@ -16,6 +17,10 @@ internal static class Creator
             Months = new[]
             {
                 CreateMonthData(),
+            },
+            AnnualExpenses = new[]
+            {
+                new AnnualExpense("Annual 1", 500, Month.June, new DateTime(2023, 6, 1), DateTime.MaxValue),
             },
         };
     }

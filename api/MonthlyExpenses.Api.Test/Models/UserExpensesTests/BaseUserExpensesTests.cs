@@ -3,6 +3,7 @@
 // </copyright>
 
 using FluentAssertions;
+using MonthlyExpenses.Api.Enums;
 using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Test.Helpers;
 
@@ -11,7 +12,7 @@ namespace MonthlyExpenses.Api.Test.Models.UserExpensesTests;
 public abstract class BaseUserExpensesTests
 {
     [Fact]
-    public void Equals_WhenNullObject_ShouldReturnTrue()
+    public void Equals_WhenNullObject_ShouldReturnFalse()
     {
         var expense1 = new UserExpenses();
         var result = expense1.Equals(null);
@@ -37,7 +38,7 @@ public abstract class BaseUserExpensesTests
     }
 
     [Fact]
-    public void Equals_WhenDifferentObject_DifferentName_ShouldReturnTrue()
+    public void Equals_WhenDifferentObject_DifferentName_ShouldReturnFalse()
     {
         var expense1 = Creator.CreateExpenses("User1");
         var expense2 = Creator.CreateExpenses("User2");
@@ -46,7 +47,7 @@ public abstract class BaseUserExpensesTests
     }
 
     [Fact]
-    public void Equals_WhenDifferentObject_DifferentMonths_ShouldReturnTrue()
+    public void Equals_WhenDifferentObject_DifferentMonths_ShouldReturnFalse()
     {
         var expense1 = Creator.CreateExpenses("User1");
         var expense2 = Creator.CreateExpenses("User1");
@@ -56,7 +57,7 @@ public abstract class BaseUserExpensesTests
     }
 
     [Fact]
-    public void Equals_WhenDifferentObject_ExtraMonths_ShouldReturnTrue()
+    public void Equals_WhenDifferentObject_ExtraMonths_ShouldReturnFalse()
     {
         var expense1 = Creator.CreateExpenses("User1");
         var expense2 = Creator.CreateExpenses("User1");
@@ -71,11 +72,35 @@ public abstract class BaseUserExpensesTests
     }
 
     [Fact]
-    public void Equals_WhenDifferentObject_MonthsWithDifferentValues_ShouldReturnTrue()
+    public void Equals_WhenDifferentObject_MonthsWithDifferentValues_ShouldReturnFalse()
     {
         var expense1 = Creator.CreateExpenses("User1");
         var expense2 = Creator.CreateExpenses("User1");
         expense2.Months[0].Income[0] = new Expense("Salary", 40);
+        var result = expense1.Equals(expense2);
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WhenDifferentObject_AnnaulWithDifferentValues_ShouldReturnFalse()
+    {
+        var expense1 = Creator.CreateExpenses("User1");
+        var expense2 = Creator.CreateExpenses("User1");
+        expense2.AnnualExpenses[0] = new AnnualExpense("Annual 2", 10000, Month.January, DateTime.Now, DateTime.MinValue);
+        var result = expense1.Equals(expense2);
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WhenDifferentObject_AnnaulWithExtraValues_ShouldReturnFalse()
+    {
+        var expense1 = Creator.CreateExpenses("User1");
+        var expense2 = Creator.CreateExpenses("User1");
+        expense2.AnnualExpenses = new[]
+        {
+            new AnnualExpense("Annual 1", 500, Month.June, new DateTime(2023, 6, 1), DateTime.MaxValue),
+            new AnnualExpense("Annual 2", 10000, Month.January, DateTime.Now, DateTime.MinValue),
+        };
         var result = expense1.Equals(expense2);
         result.Should().BeFalse();
     }
