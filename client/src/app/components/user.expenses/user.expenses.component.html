@@ -30,6 +30,14 @@
         </div>
     </div>
 
+    <h4>Annual Expenses</h4>
+    <div *ngFor="let item of expenses.annualExpenses">
+        <input [(ngModel)]="item.name" type="text">
+        <input [(ngModel)]="item.value" type="number">
+        <button (click)="removeExpense(expenses.annualExpenses, item)">Remove</button>
+    </div>
+    <button (click)="addAnnuallExpense()">Add Annual Expense</button>
+
     <h4>Operations</h4>
     <ul>
         <li><button (click)="addMonth()">Add Month</button></li>

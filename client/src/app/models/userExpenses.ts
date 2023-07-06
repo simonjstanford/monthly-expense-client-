@@ -1,6 +1,7 @@
 export type UserExpenses = {
     user: string;
     months: ExpenseMonth[];
+    annualExpenses: AnnualExpense[];
 };
 
 export type ExpenseMonth = {
@@ -12,4 +13,12 @@ export type ExpenseMonth = {
 export type Expense = {
     name: string;
     value: number;
+}
+
+export type AnnualExpense = {
+    name: string;
+    value: number;
+    month: number;
+    startDate: Date;
+    endDate: Date;
 }

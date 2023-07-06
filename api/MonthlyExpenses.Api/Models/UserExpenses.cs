@@ -45,7 +45,7 @@ public sealed class UserExpenses : IEquatable<UserExpenses>
     /// <summary>
     /// The periodic expenses that happen annually, e.g. Car tax.
     /// </summary>
-    [JsonPropertyName("annual")]
+    [JsonPropertyName("annualExpenses")]
     public AnnualExpense[] AnnualExpenses { get; set; }
 
     public static bool operator ==(UserExpenses expense1, UserExpenses expense2)
