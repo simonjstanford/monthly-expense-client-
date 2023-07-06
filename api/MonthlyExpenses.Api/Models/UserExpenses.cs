@@ -14,19 +14,20 @@ namespace MonthlyExpenses.Api.Models;
 public sealed class UserExpenses : IEquatable<UserExpenses>
 {
     public UserExpenses()
-        : this(string.Empty, Array.Empty<MonthData>())
+        : this(string.Empty, Array.Empty<MonthData>(), Array.Empty<AnnualExpense>())
     {
     }
 
     public UserExpenses(string user)
-        : this(user, Array.Empty<MonthData>())
+        : this(user, Array.Empty<MonthData>(), Array.Empty<AnnualExpense>())
     {
     }
 
-    public UserExpenses(string user, MonthData[] months)
+    public UserExpenses(string user, MonthData[] months, AnnualExpense[] annualExpenses)
     {
         User = user;
         Months = months;
+        AnnualExpenses = annualExpenses;
     }
 
     /// <summary>
