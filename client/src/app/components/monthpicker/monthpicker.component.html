@@ -1,0 +1,4 @@
+<select [(ngModel)]="selectedMonth" (ngModelChange)="onMonthSelected()">
+    <option disabled value=''>-- Select One --</option>
+    <option *ngFor="let month of months" [value]="month.id">{{ month.name }}</option>
+</select>

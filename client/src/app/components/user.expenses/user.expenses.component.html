@@ -34,6 +34,7 @@
     <div *ngFor="let item of expenses.annualExpenses">
         <input [(ngModel)]="item.name" type="text">
         <input [(ngModel)]="item.value" type="number">
+        <app-monthpicker [(selectedMonth)]="item.month"></app-monthpicker>
         <button (click)="removeExpense(expenses.annualExpenses, item)">Remove</button>
     </div>
     <button (click)="addAnnuallExpense()">Add Annual Expense</button>

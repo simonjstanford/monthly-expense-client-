@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { UserComponent } from './components/user/user.component';
 import { CurrentMonthComponent } from './components/current.month/current.month.component';
 import { UserExpensesComponent } from './components/user.expenses/user.expenses.component';
+import { MonthpickerComponent } from './components/monthpicker/monthpicker.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { UserExpensesComponent } from './components/user.expenses/user.expenses.
     UserComponent,
     CurrentMonthComponent,
     UserExpensesComponent,
+    MonthpickerComponent,
   ],
   imports: [
     BrowserModule,
