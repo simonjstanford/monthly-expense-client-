@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UtilsService } from 'src/app/services/utils.service';
 
 interface Month {
   id: number;
@@ -13,10 +14,13 @@ interface Month {
 export class MonthpickerComponent {
   private _selectedMonth: number = 0
 
+  constructor(private utils: UtilsService) {
+  }
+
   @Input()
   set selectedMonth(value: number) {
 
-    if (this.isString(value)) {
+    if (this.utils.isString(value)) {
       this._selectedMonth = parseInt(value as any);
     } else {
       this._selectedMonth = value;
@@ -48,9 +52,5 @@ export class MonthpickerComponent {
 
   onMonthSelected() {
     this.selectedMonthChange.emit(this.selectedMonth);
-  }
-
-  isString(x: any) {
-    return Object.prototype.toString.call(x) === "[object String]"
   }
 }

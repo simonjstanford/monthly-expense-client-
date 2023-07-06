@@ -8,6 +8,7 @@ import { UserComponent } from './components/user/user.component';
 import { CurrentMonthComponent } from './components/current.month/current.month.component';
 import { UserExpensesComponent } from './components/user.expenses/user.expenses.component';
 import { MonthpickerComponent } from './components/monthpicker/monthpicker.component';
+import { DatepickerComponent } from './components/datepicker/datepicker.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { MonthpickerComponent } from './components/monthpicker/monthpicker.compo
     CurrentMonthComponent,
     UserExpensesComponent,
     MonthpickerComponent,
+    DatepickerComponent,
   ],
   imports: [
     BrowserModule,

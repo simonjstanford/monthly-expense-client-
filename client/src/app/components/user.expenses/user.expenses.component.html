@@ -5,7 +5,7 @@
         <h3>{{month.monthStart | date :'MMM y'}}</h3>
 
         <ul>
-            <li><input [(ngModel)]="month.monthStart" type="date"></li>
+            <li><app-datepicker [(selectedDate)]="month.monthStart"></app-datepicker></li>
             <li><button (click)="removeMonth(month)">Remove Month</button></li>
         </ul>
 
@@ -35,6 +35,8 @@
         <input [(ngModel)]="item.name" type="text">
         <input [(ngModel)]="item.value" type="number">
         <app-monthpicker [(selectedMonth)]="item.month"></app-monthpicker>
+        <app-datepicker [(selectedDate)]="item.startDate"></app-datepicker>
+        <app-datepicker [(selectedDate)]="item.endDate"></app-datepicker>
         <button (click)="removeExpense(expenses.annualExpenses, item)">Remove</button>
     </div>
     <button (click)="addAnnuallExpense()">Add Annual Expense</button>
