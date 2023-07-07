@@ -41,6 +41,7 @@ export class UserExpensesComponent {
       error: (e) => this.expenses = {
         user: this.user?.userDetails ?? "",
         months: [],
+        monthlyExpenses: [],
         annualExpenses: [],
       },
     });
@@ -70,7 +71,25 @@ export class UserExpensesComponent {
     });
   }
 
-  public addAnnuallExpense() {
+  public addMonthlyExpense() {
+    if (!this.expenses?.monthlyExpenses) {
+      console.log("No list to add expense!");
+      return;
+    }
+
+    const startDate = new Date();
+    const endDate = startDate;
+    endDate.setFullYear(startDate.getFullYear() + 10);
+
+    this.expenses.monthlyExpenses.push({
+      name: "New Monthly Item",
+      value: 0,
+      startDate: startDate,
+      endDate: endDate,
+    });
+  }
+
+  public addAnnualExpense() {
     if (!this.expenses?.annualExpenses) {
       console.log("No list to add expense!");
       return;

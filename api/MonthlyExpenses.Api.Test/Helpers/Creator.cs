@@ -18,6 +18,10 @@ internal static class Creator
             {
                 CreateMonthData(),
             },
+            MonthlyExpenses = new[]
+            {
+                new MonthlyExpense("Montly 1", 500, new DateTime(2023, 6, 1), DateTime.MaxValue),
+            },
             AnnualExpenses = new[]
             {
                 new AnnualExpense("Annual 1", 500, Month.June, new DateTime(2023, 6, 1), DateTime.MaxValue),

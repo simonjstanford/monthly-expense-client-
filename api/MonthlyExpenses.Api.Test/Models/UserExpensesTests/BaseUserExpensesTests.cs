@@ -82,6 +82,30 @@ public abstract class BaseUserExpensesTests
     }
 
     [Fact]
+    public void Equals_WhenDifferentObject_MonthlyWithDifferentValues_ShouldReturnFalse()
+    {
+        var expense1 = Creator.CreateExpenses("User1");
+        var expense2 = Creator.CreateExpenses("User1");
+        expense2.MonthlyExpenses[0] = new MonthlyExpense("Montly 2", 10000, DateTime.Now, DateTime.MinValue);
+        var result = expense1.Equals(expense2);
+        result.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Equals_WhenDifferentObject_MonthlyWithExtraValues_ShouldReturnFalse()
+    {
+        var expense1 = Creator.CreateExpenses("User1");
+        var expense2 = Creator.CreateExpenses("User1");
+        expense2.MonthlyExpenses = new[]
+        {
+            new MonthlyExpense("Montly 1", 500, new DateTime(2023, 6, 1), DateTime.MaxValue),
+            new MonthlyExpense("Montly 2", 10000, DateTime.Now, DateTime.MinValue),
+        };
+        var result = expense1.Equals(expense2);
+        result.Should().BeFalse();
+    }
+
+    [Fact]
     public void Equals_WhenDifferentObject_AnnaulWithDifferentValues_ShouldReturnFalse()
     {
         var expense1 = Creator.CreateExpenses("User1");

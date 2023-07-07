@@ -28,25 +28,9 @@ public sealed class MonthData : IEquatable<MonthData>
     [JsonPropertyName("outgoings")]
     public Expense[] Outgoings { get; set; }
 
-    public static bool operator ==(MonthData data1, MonthData data2)
-    {
-        if (((object)data1) == null || ((object)data2) == null)
-        {
-            return Equals(data1, data2);
-        }
+    public static bool operator ==(MonthData data1, MonthData data2) => Equals(data1, data2);
 
-        return data1.Equals(data2);
-    }
-
-    public static bool operator !=(MonthData data1, MonthData data2)
-    {
-        if (((object)data1) == null || ((object)data2) == null)
-        {
-            return !Equals(data1, data2);
-        }
-
-        return !data1.Equals(data2);
-    }
+    public static bool operator !=(MonthData data1, MonthData data2) => !Equals(data1, data2);
 
     public bool Equals(MonthData other)
     {

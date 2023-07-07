@@ -14,19 +14,20 @@ namespace MonthlyExpenses.Api.Models;
 public sealed class UserExpenses : IEquatable<UserExpenses>
 {
     public UserExpenses()
-        : this(string.Empty, Array.Empty<MonthData>(), Array.Empty<AnnualExpense>())
+        : this(string.Empty, Array.Empty<MonthData>(), Array.Empty<MonthlyExpense>(), Array.Empty<AnnualExpense>())
     {
     }
 
     public UserExpenses(string user)
-        : this(user, Array.Empty<MonthData>(), Array.Empty<AnnualExpense>())
+        : this(user, Array.Empty<MonthData>(), Array.Empty<MonthlyExpense>(), Array.Empty<AnnualExpense>())
     {
     }
 
-    public UserExpenses(string user, MonthData[] months, AnnualExpense[] annualExpenses)
+    public UserExpenses(string user, MonthData[] months, MonthlyExpense[] monthlyExpense, AnnualExpense[] annualExpenses)
     {
         User = user;
         Months = months;
+        MonthlyExpenses = monthlyExpense;
         AnnualExpenses = annualExpenses;
     }
 
@@ -48,17 +49,15 @@ public sealed class UserExpenses : IEquatable<UserExpenses>
     [JsonPropertyName("annualExpenses")]
     public AnnualExpense[] AnnualExpenses { get; set; }
 
-    public static bool operator ==(UserExpenses expense1, UserExpenses expense2)
-    {
-        if (((object)expense1) == null || ((object)expense2) == null)
-        {
-            return Equals(expense1, expense2);
-        }
+    /// <summary>
+    /// The periodic expenses that happen monthly, e.g. Car tax.
+    /// </summary>
+    [JsonPropertyName("monthlyExpenses")]
+    public MonthlyExpense[] MonthlyExpenses { get; set; }
 
-        return expense1.Equals(expense2);
-    }
+    public static bool operator ==(UserExpenses expense1, UserExpenses expense2) => Equals(expense1, expense2);
 
-    public static bool operator !=(UserExpenses expense1, UserExpenses expense2) => !(expense1 == expense2);
+    public static bool operator !=(UserExpenses expense1, UserExpenses expense2) => !Equals(expense1, expense2);
 
     public bool Equals(UserExpenses other)
     {
@@ -74,6 +73,7 @@ public sealed class UserExpenses : IEquatable<UserExpenses>
 
         if (Equals(User, other.User) &&
             EnumerableHelpers.SequenceEqual(Months, other?.Months) &&
+            EnumerableHelpers.SequenceEqual(MonthlyExpenses, other?.MonthlyExpenses) &&
             EnumerableHelpers.SequenceEqual(AnnualExpenses, other?.AnnualExpenses))
         {
             return true;
@@ -94,9 +94,14 @@ public sealed class UserExpenses : IEquatable<UserExpenses>
             hash.Add(month);
         }
 
-        foreach (var annualExpense in AnnualExpenses)
+        foreach (var expense in MonthlyExpenses)
         {
-            hash.Add(annualExpense);
+            hash.Add(expense);
+        }
+
+        foreach (var expense in AnnualExpenses)
+        {
+            hash.Add(expense);
         }
 
         return hash.ToHashCode();
