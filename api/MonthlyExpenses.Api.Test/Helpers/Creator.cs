@@ -9,7 +9,7 @@ namespace MonthlyExpenses.Api.Test.Helpers;
 
 internal static class Creator
 {
-    internal static UserExpenses CreateExpenses(string userName)
+    internal static UserExpenses CreateExpenses(string userName = "User1")
     {
         return new UserExpenses
         {

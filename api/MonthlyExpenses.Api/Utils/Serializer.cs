@@ -8,7 +8,23 @@ namespace MonthlyExpenses.Api.Utils;
 
 public static class Serializer
 {
-    public static string Serialize<T>(T obj) => JsonSerializer.Serialize<T>(obj, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+    public static string Serialize<T>(T obj)
+    {
+        var serializeOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
 
-    public static T Deserialize<T>(string json) => JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        return JsonSerializer.Serialize<T>(obj, serializeOptions);
+    }
+
+    public static T Deserialize<T>(string json)
+    {
+        var serializeOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        };
+
+        return JsonSerializer.Deserialize<T>(json, serializeOptions);
+    }
 }
