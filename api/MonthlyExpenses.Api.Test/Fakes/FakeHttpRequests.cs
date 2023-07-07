@@ -3,10 +3,10 @@
 // </copyright>
 
 using System.Text;
-using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using MonthlyExpenses.Api.Authentication;
+using MonthlyExpenses.Api.Utils;
 using Moq;
 
 namespace MonthlyExpenses.Api.Test.Fakes;
@@ -75,7 +75,7 @@ public static class FakeHttpRequests
 
     private static void SetupRequestBody(string contentType, object? body, Mock<HttpRequest> mockRequest)
     {
-        var json = JsonSerializer.Serialize(body);
+        var json = Serializer.Serialize(body);
         var byteArray = Encoding.ASCII.GetBytes(json);
         var httpRequestStream = new MemoryStream(byteArray);
         httpRequestStream.Flush();

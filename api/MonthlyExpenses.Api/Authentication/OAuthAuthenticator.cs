@@ -6,12 +6,12 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
+using MonthlyExpenses.Api.Utils;
 
 namespace MonthlyExpenses.Api.Authentication;
 
@@ -57,7 +57,7 @@ public class OAuthAuthenticator : IAuthenticator
             var decoded = Convert.FromBase64String(data);
             var json = Encoding.UTF8.GetString(decoded);
             logger.LogInformation($"x-ms-client-principal: {json}");
-            var principal = JsonSerializer.Deserialize<ClientPrincipal>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var principal = Serializer.Deserialize<ClientPrincipal>(json);
             principal.UserRoles = principal.UserRoles?.Except(new string[] { "anonymous" }, StringComparer.CurrentCultureIgnoreCase);
             return principal;
         }

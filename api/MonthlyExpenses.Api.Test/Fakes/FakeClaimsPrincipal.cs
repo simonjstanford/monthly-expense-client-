@@ -3,8 +3,8 @@
 // </copyright>
 
 using System.Text;
-using System.Text.Json;
 using MonthlyExpenses.Api.Models;
+using MonthlyExpenses.Api.Utils;
 
 namespace MonthlyExpenses.Api.Test.Fakes;
 
@@ -13,7 +13,7 @@ internal static class FakeClaimsPrincipal
     public static string CreateClientPrincipalBase64(List<string>? userRoles = null, string identityProvider = "Test Provider")
     {
         ClientPrincipal principal = CreateClientPrincipal(userRoles, identityProvider);
-        var json = JsonSerializer.Serialize(principal, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        var json = Serializer.Serialize(principal);
         var plainTextBytes = Encoding.UTF8.GetBytes(json);
         var base64 = Convert.ToBase64String(plainTextBytes);
         return base64;

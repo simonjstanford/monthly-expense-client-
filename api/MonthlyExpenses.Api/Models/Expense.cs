@@ -2,10 +2,6 @@
 // Copyright (c) Simon Stanford. All rights reserved.
 // </copyright>
 
-using System.Text.Json.Serialization;
-
 namespace MonthlyExpenses.Api.Models;
 
-public readonly record struct Expense(
-    [property:JsonPropertyName("name")] string Name,
-    [property: JsonPropertyName("value")] decimal Value);
+public readonly record struct Expense(string Name, decimal Value);

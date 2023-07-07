@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace MonthlyExpenses.Api.Models;
 
@@ -13,19 +12,16 @@ public sealed class MonthData : IEquatable<MonthData>
     /// <summary>
     /// The month that this expense info represents.
     /// </summary>
-    [JsonPropertyName("monthStart")]
     public DateTime MonthStart { get; set; }
 
     /// <summary>
     /// The income that is being received this month.
     /// </summary>
-    [JsonPropertyName("income")]
     public Expense[] Income { get; set; }
 
     /// <summary>
     /// The outgoings that are paid out this month.
     /// </summary>
-    [JsonPropertyName("outgoings")]
     public Expense[] Outgoings { get; set; }
 
     public static bool operator ==(MonthData data1, MonthData data2) => Equals(data1, data2);

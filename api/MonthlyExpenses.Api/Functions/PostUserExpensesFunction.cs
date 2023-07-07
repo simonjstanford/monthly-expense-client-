@@ -5,7 +5,6 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +15,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
+using MonthlyExpenses.Api.Utils;
 
 namespace MonthlyExpenses.Api.Functions;
 
@@ -76,7 +76,7 @@ public class PostUserExpensesFunction
         {
             using var streamReader = new StreamReader(req.Body);
             var body = await streamReader.ReadToEndAsync();
-            return JsonSerializer.Deserialize<UserExpenses>(body);
+            return Serializer.Deserialize<UserExpenses>(body);
         }
         catch (Exception ex)
         {

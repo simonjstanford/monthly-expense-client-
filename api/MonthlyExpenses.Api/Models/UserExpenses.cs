@@ -3,7 +3,6 @@
 // </copyright>
 
 using System;
-using System.Text.Json.Serialization;
 using MonthlyExpenses.Api.Utils;
 
 namespace MonthlyExpenses.Api.Models;
@@ -34,25 +33,21 @@ public sealed class UserExpenses : IEquatable<UserExpenses>
     /// <summary>
     /// The readable name of the user.
     /// </summary>
-    [JsonPropertyName("user")]
     public string User { get; set; }
 
     /// <summary>
     /// The month by month income and outgoings of the user.
     /// </summary>
-    [JsonPropertyName("months")]
     public MonthData[] Months { get; set; }
 
     /// <summary>
     /// The periodic expenses that happen annually, e.g. Car tax.
     /// </summary>
-    [JsonPropertyName("annualExpenses")]
     public AnnualExpense[] AnnualExpenses { get; set; }
 
     /// <summary>
     /// The periodic expenses that happen monthly, e.g. Car tax.
     /// </summary>
-    [JsonPropertyName("monthlyExpenses")]
     public MonthlyExpense[] MonthlyExpenses { get; set; }
 
     public static bool operator ==(UserExpenses expense1, UserExpenses expense2) => Equals(expense1, expense2);

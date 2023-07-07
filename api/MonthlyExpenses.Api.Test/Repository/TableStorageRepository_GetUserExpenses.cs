@@ -2,7 +2,6 @@
 // Copyright (c) Simon Stanford. All rights reserved.
 // </copyright>
 
-using System.Text.Json;
 using Azure;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -10,6 +9,7 @@ using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Repository;
 using MonthlyExpenses.Api.Test.Fakes;
 using MonthlyExpenses.Api.Test.Helpers;
+using MonthlyExpenses.Api.Utils;
 using Moq;
 
 namespace MonthlyExpenses.Api.Test.Repository;
@@ -54,7 +54,7 @@ public class TableStorageRepository_GetUserExpenses : TableStorageRepositoryBase
 
         if (expenses != null)
         {
-            entity.Expenses = JsonSerializer.Serialize(expenses);
+            entity.Expenses = Serializer.Serialize(expenses);
             nullableResponse = new FakeResponse<UserExpenseEntity>(true, entity);
         }
         else

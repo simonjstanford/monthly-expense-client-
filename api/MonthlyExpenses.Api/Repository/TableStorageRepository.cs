@@ -3,12 +3,12 @@
 // </copyright>
 
 using System;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Interfaces;
 using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Repository.Repository;
+using MonthlyExpenses.Api.Utils;
 
 namespace MonthlyExpenses.Api.Repository;
 
@@ -33,7 +33,7 @@ public class TableStorageRepository : IRepository
 
             if (entity?.HasValue == true && entity.Value?.Expenses is string expensesJson)
             {
-                return JsonSerializer.Deserialize<UserExpenses>(expensesJson);
+                return Serializer.Deserialize<UserExpenses>(expensesJson);
             }
             else
             {
@@ -69,7 +69,7 @@ public class TableStorageRepository : IRepository
         {
             RowKey = user.Id,
             PartitionKey = PartitionKey,
-            Expenses = JsonSerializer.Serialize(data),
+            Expenses = Serializer.Serialize(data),
         };
     }
 }

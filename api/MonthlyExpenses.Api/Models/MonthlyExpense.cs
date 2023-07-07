@@ -3,12 +3,11 @@
 // </copyright>
 
 using System;
-using System.Text.Json.Serialization;
 
 namespace MonthlyExpenses.Api.Models;
 
 public readonly record struct MonthlyExpense(
-    [property: JsonPropertyName("name")] string Name,
-    [property: JsonPropertyName("value")] decimal Value,
-    [property: JsonPropertyName("startDate")] DateTime StartDate,
-    [property: JsonPropertyName("endDate")] DateTime EndDate);
+    string Name,
+    decimal Value,
+    DateTime StartDate,
+    DateTime EndDate);

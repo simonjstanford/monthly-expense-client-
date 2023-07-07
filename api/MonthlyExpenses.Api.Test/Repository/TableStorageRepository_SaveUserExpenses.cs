@@ -2,12 +2,12 @@
 // Copyright (c) Simon Stanford. All rights reserved.
 // </copyright>
 
-using System.Text.Json;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using MonthlyExpenses.Api.Models;
 using MonthlyExpenses.Api.Repository;
 using MonthlyExpenses.Api.Test.Helpers;
+using MonthlyExpenses.Api.Utils;
 using Moq;
 
 namespace MonthlyExpenses.Api.Test.Repository;
@@ -35,7 +35,7 @@ public class TableStorageRepository_SaveUserExpenses : TableStorageRepositoryBas
 
     private static bool ValidateExpenseEntity(UserExpenseEntity entity, UserExpenses expenses)
     {
-        var entityExpense = JsonSerializer.Deserialize<UserExpenses>(entity.Expenses);
+        var entityExpense = Serializer.Deserialize<UserExpenses>(entity.Expenses);
         return Equals(entityExpense, expenses);
     }
 
