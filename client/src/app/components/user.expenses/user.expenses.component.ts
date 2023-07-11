@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { Expense, ExpenseMonth, UserExpenses } from 'src/app/models/userExpenses';
 import { ApiService } from 'src/app/services/api.service';
@@ -10,6 +11,7 @@ import { OauthServiceService } from 'src/app/services/oauth.service';
   styleUrls: ['./user.expenses.component.css']
 })
 export class UserExpensesComponent {
+  currentUserSubject: Subscription | undefined;
   user: User | null;
   expenses: UserExpenses | null;
 
@@ -24,10 +26,20 @@ export class UserExpensesComponent {
   }
 
   ngOnInit() {
-    this.oauthService.currentUserSubject.subscribe((user) => {
-      this.user = user;
-      this.fetchUserData();
-    });
+    this.currentUserSubject = this.oauthService.currentUserSubject.subscribe({
+        next: (user) => {
+          this.handleNewUser(user);
+        }
+      });
+  }
+
+  private handleNewUser(user: User | null) {
+    this.user = user;
+    this.fetchUserData();
+  }
+
+  ngOnDestroy() {
+    this.currentUserSubject?.unsubscribe();
   }
 
   fetchUserData() {

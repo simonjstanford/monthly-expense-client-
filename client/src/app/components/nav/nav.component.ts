@@ -1,14 +1,13 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { OauthServiceService } from 'src/app/services/oauth.service';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.css']
 })
-export class UserComponent {
+export class NavComponent {
   user: User | null;
 
   constructor(private oauthService: OauthServiceService) {

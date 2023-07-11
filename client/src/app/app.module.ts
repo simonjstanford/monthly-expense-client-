@@ -4,25 +4,31 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { UserComponent } from './components/user/user.component';
 import { CurrentMonthComponent } from './components/current.month/current.month.component';
 import { UserExpensesComponent } from './components/user.expenses/user.expenses.component';
 import { MonthpickerComponent } from './components/monthpicker/monthpicker.component';
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
+import { AppRoutingModule } from './app-routing.module';
+import { MonthlyExpensesComponent } from './components/monthly.expenses/monthly.expenses.component';
+import { AnnualExpensesComponent } from './components/annual.expenses/annual.expenses.component';
+import { NavComponent } from './components/nav/nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent,
     CurrentMonthComponent,
     UserExpensesComponent,
     MonthpickerComponent,
     DatepickerComponent,
+    MonthlyExpensesComponent,
+    AnnualExpensesComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

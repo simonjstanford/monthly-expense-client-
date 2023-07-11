@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OauthServiceService {
 
-  public currentUserSubject = new Subject<User | null>();
+  public currentUserSubject = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient) { 
   }

@@ -1,0 +1,11 @@
+<nav>
+    <ul>
+        <li *ngIf="!user"><a href="/.auth/login/github">Login with GitHub</a></li>
+        <li *ngIf="!user"><a href="/.auth/login/aad">Login with Azure AD</a></li>
+        <li *ngIf="user">{{user.userDetails}}</li>
+        <li *ngIf="user"><a routerLink="/">Home</a></li>
+        <li *ngIf="user"><a routerLink="/monthly">Monthly Expenses</a></li>
+        <li *ngIf="user"><a routerLink="/annual">Annual Expenses</a></li>
+        <li *ngIf="user"><a href="/.auth/logout">Log out</a></li>
+    </ul>
+</nav>
