@@ -34,8 +34,10 @@ export class UserExpensesComponent {
   }
 
   private handleNewUser(user: User | null) {
-    this.user = user;
-    this.fetchUserData();
+    if (user != this.user) {
+      this.user = user;
+      this.fetchUserData();
+    }
   }
 
   ngOnDestroy() {
