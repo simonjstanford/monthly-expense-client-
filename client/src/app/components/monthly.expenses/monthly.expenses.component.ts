@@ -20,7 +20,7 @@ export class MonthlyExpensesComponent extends BaseComponent {
     }
 
     const startDate = new Date();
-    const endDate = startDate;
+    const endDate = new Date();
     endDate.setFullYear(startDate.getFullYear() + 10);
 
     this.expenses.monthlyExpenses.push({

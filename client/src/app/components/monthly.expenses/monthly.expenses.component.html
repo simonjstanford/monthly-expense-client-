@@ -1,5 +1,5 @@
 <div *ngIf="user && expenses">
-    <h1>Monthly Expenses</h1>
+    <h2>Monthly Expenses</h2>
     <div *ngFor="let item of expenses.monthlyExpenses">
         <input [(ngModel)]="item.name" type="text">
         <input [(ngModel)]="item.value" type="number">
@@ -7,6 +7,10 @@
         <app-datepicker [(selectedDate)]="item.endDate"></app-datepicker>
         <button (click)="removeExpense(expenses.monthlyExpenses, item)">Remove</button>
     </div>
-    <button (click)="addMonthlyExpense()">Add Monthly Expense</button>
-    <button (click)="onSave()">Save</button>  <span *ngIf="saved">Saved!</span><span *ngIf="errorSaving">Error!</span>
+
+    <h3>Operations</h3>
+    <ul>
+        <li><button (click)="addMonthlyExpense()">Add Monthly Expense</button></li>
+        <li><button (click)="onSave()">Save</button>  <span *ngIf="saved">Saved!</span><span *ngIf="errorSaving">Error!</span></li>   
+    </ul>
 </div>
