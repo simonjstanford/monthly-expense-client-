@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MonthlyExpensesComponent } from './components/monthly.expenses/monthly.expenses.component';
 import { AnnualExpensesComponent } from './components/annual.expenses/annual.expenses.component';
 import { NavComponent } from './components/nav/nav.component';
+import { BaseComponent } from './components/base/base.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NavComponent } from './components/nav/nav.component';
     MonthlyExpensesComponent,
     AnnualExpensesComponent,
     NavComponent,
+    BaseComponent,
   ],
   imports: [
     BrowserModule,
