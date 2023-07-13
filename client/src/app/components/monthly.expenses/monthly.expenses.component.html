@@ -1,16 +1,28 @@
 <div *ngIf="user && expenses">
     <h2>Monthly Expenses</h2>
-    <div *ngFor="let item of expenses.monthlyExpenses">
-        <input [(ngModel)]="item.name" type="text">
-        <input [(ngModel)]="item.value" type="number">
-        <app-datepicker [(selectedDate)]="item.startDate"></app-datepicker>
-        <app-datepicker [(selectedDate)]="item.endDate"></app-datepicker>
-        <button (click)="removeExpense(expenses.monthlyExpenses, item)">Remove</button>
-    </div>
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+        <div *ngFor="let item of expensesFormGroup; let i = index">
+            <div [formGroup]="item">
+                <input type="text" formControlName="name" placeholder="Name">
+                <input type="number" formControlName="value" placeholder="Value"  min="0">
+                <div *ngIf="item.controls['value'].errors">
+                    <div *ngIf="item.controls['value'].errors['min']">Value must be zero or greater</div>
+                </div>
 
-    <h3>Operations</h3>
-    <ul>
-        <li><button (click)="addMonthlyExpense()">Add Monthly Expense</button></li>
-        <li><button (click)="onSave()">Save</button>  <span *ngIf="saved">Saved!</span><span *ngIf="errorSaving">Error!</span></li>   
-    </ul>
+                <!-- <app-datepicker [(selectedDate)]="item.startDate"></app-datepicker>
+                <app-datepicker [(selectedDate)]="item.endDate"></app-datepicker>
+                <button (click)="removeExpense(expenses.monthlyExpenses, item)">Remove</button> -->
+            </div>
+        </div>
+      
+        <h3>Operations</h3>
+        <ul>
+          <li><button (click)="addMonthlyExpense()">Add Monthly Expense</button></li>
+          <li>
+            <button type="submit" [disabled]="expenseForm.invalid">Save</button>
+            <span *ngIf="saved">Saved!</span>
+            <span *ngIf="errorSaving">Error!</span>
+          </li>
+        </ul>
+    </form>      
 </div>

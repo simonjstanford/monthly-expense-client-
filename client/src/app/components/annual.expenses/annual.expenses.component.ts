@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { OauthServiceService } from 'src/app/services/oauth.service';
 import { ApiService } from 'src/app/services/api.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-annual-expenses',
@@ -9,8 +10,8 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./annual.expenses.component.css']
 })
 export class AnnualExpensesComponent extends BaseComponent {
-  constructor(oauthService: OauthServiceService, apiService: ApiService) {
-    super(oauthService, apiService);
+  constructor(oauthService: OauthServiceService, apiService: ApiService, formBuilder: FormBuilder) {
+    super(oauthService, apiService, formBuilder);
   }
   
   public addAnnualExpense() {

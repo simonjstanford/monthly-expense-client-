@@ -3,6 +3,7 @@ import { Expense, ExpenseMonth } from 'src/app/models/userExpenses';
 import { ApiService } from 'src/app/services/api.service';
 import { OauthServiceService } from 'src/app/services/oauth.service';
 import { BaseComponent } from '../base/base.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-expenses',
@@ -10,8 +11,8 @@ import { BaseComponent } from '../base/base.component';
   styleUrls: ['./user.expenses.component.css']
 })
 export class UserExpensesComponent extends BaseComponent {
-  constructor(oauthService: OauthServiceService, apiService: ApiService) {
-    super(oauthService, apiService);
+  constructor(oauthService: OauthServiceService, apiService: ApiService, formBuilder: FormBuilder) {
+    super(oauthService, apiService, formBuilder);
   }
 
   public addExpense(data: Expense[]) {

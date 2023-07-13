@@ -13,7 +13,7 @@
             <h3>Outgoings</h3>
             <div *ngFor="let item of month.outgoings">
                 <input [(ngModel)]="item.name" type="text">
-                <input [(ngModel)]="item.value" type="number">
+                <input [(ngModel)]="item.value" type="number" min="0">
                 <button (click)="removeExpense(month.outgoings, item)">Remove</button>
             </div>
             <button (click)="addExpense(month.outgoings)">Add Outgoing</button>
@@ -23,7 +23,7 @@
             <h3>Income</h3>
             <div *ngFor="let item of month.income">
                 <input [(ngModel)]="item.name" type="text">
-                <input [(ngModel)]="item.value" type="number">
+                <input [(ngModel)]="item.value" type="number" min="0">
                 <button (click)="removeExpense(month.outgoings, item)">Remove</button>
             </div>
             <button (click)="addExpense(month.income)">Add Income</button>

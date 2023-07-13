@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user';
 import { Expense, UserExpenses } from 'src/app/models/userExpenses';
 import { ApiService } from 'src/app/services/api.service';
 import { OauthServiceService } from 'src/app/services/oauth.service';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-base',
@@ -17,18 +18,27 @@ import { OauthServiceService } from 'src/app/services/oauth.service';
 })
 export class BaseComponent {
   private currentUserSubject: Subscription | undefined;
-
+  
+  public expenseForm: FormGroup;
   public user: User | null;
   public expenses: UserExpenses | null;
   public saved: boolean;
   public errorSaving: boolean;
 
-  constructor(protected oauthService: OauthServiceService, protected apiService: ApiService) {
+  constructor(protected oauthService: OauthServiceService, protected apiService: ApiService, protected formBuilder: FormBuilder) {
     this.user = null;
     this.expenses = null;
     this.saved = false;
     this.errorSaving = false;
+
+    this.expenseForm = this.formBuilder.group({
+      expense: new FormArray([])
+    });
   }
+
+  get formControls() { return this.expenseForm.controls; }
+  get expenseFormArray() { return this.formControls['expense'] as FormArray; }
+  get expensesFormGroup() { return this.expenseFormArray.controls as FormGroup[]; }
 
   ngOnInit() {
     this.currentUserSubject = this.oauthService.currentUserSubject.subscribe({
@@ -50,7 +60,10 @@ export class BaseComponent {
     }
 
     this.apiService.getUserData().subscribe({
-      next: (data) => this.expenses = data,
+      next: (data) => {
+        this.expenses = data;
+        this.handleNewUserData(data)
+      },
       error: (e) => this.expenses = {
         user: this.user?.userDetails ?? "",
         months: [],
@@ -58,6 +71,10 @@ export class BaseComponent {
         annualExpenses: [],
       },
     });
+  }
+
+  protected handleNewUserData(data: UserExpenses): void {
+    //overridden in sub classes
   }
 
   ngOnDestroy() {
