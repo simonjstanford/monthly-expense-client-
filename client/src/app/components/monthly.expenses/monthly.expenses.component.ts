@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { OauthServiceService } from 'src/app/services/oauth.service';
 import { ApiService } from 'src/app/services/api.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MonthlyExpense, UserExpenses } from 'src/app/models/userExpenses';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-monthly-expenses',
@@ -16,7 +17,7 @@ export class MonthlyExpensesComponent extends BaseComponent {
   }
 
   public addMonthlyExpense() {
-    if (!this.expenses?.monthlyExpenses) {
+    if (!this.expenseFormArray) {
       console.log("No list to add expense!");
       return;
     }
@@ -25,12 +26,14 @@ export class MonthlyExpensesComponent extends BaseComponent {
     const endDate = new Date();
     endDate.setFullYear(startDate.getFullYear() + 10);
 
-    this.expenses.monthlyExpenses.push({
+    const newExpense = {
       name: "New Monthly Item",
       value: 0,
       startDate: startDate,
       endDate: endDate,
-    });
+    };
+
+    this.addToForm(newExpense);
   }
 
   override handleNewUserData(data: UserExpenses): void {
@@ -41,12 +44,12 @@ export class MonthlyExpensesComponent extends BaseComponent {
     }
   }
 
-  private addToForm(x: MonthlyExpense) {
+  private addToForm(expense: MonthlyExpense) {
     const newGroup = this.formBuilder.group({
-      name: [x.name, Validators.required],
-      value: [x.value, [Validators.required, Validators.min(0)]],
-      startDate: [x.startDate, Validators.required],
-      endDate: [x.startDate, Validators.required],
+      name: [expense.name, Validators.required],
+      value: [expense.value, [Validators.required, Validators.min(0)]],
+      startDate: [formatDate(expense.startDate, 'yyyy-MM-dd', 'en'), Validators.required],
+      endDate: [formatDate(expense.endDate, 'yyyy-MM-dd', 'en'), Validators.required],
     });
   
     this.expenseFormArray.push(newGroup);

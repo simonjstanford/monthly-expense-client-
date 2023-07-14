@@ -104,4 +104,13 @@ export class BaseComponent {
       data.splice(index, 1);
     }
   }
+
+  public removeExpenseFromForm(index: number) {
+    if (!this.expenseFormArray) {
+      console.log("No list to add expense!");
+      return;
+    }
+
+    this.expenseFormArray.removeAt(index);
+  }
 }

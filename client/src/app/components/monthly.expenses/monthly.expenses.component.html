@@ -8,10 +8,9 @@
                 <div *ngIf="item.controls['value'].errors">
                     <div *ngIf="item.controls['value'].errors['min']">Value must be zero or greater</div>
                 </div>
-
-                <!-- <app-datepicker [(selectedDate)]="item.startDate"></app-datepicker>
-                <app-datepicker [(selectedDate)]="item.endDate"></app-datepicker>
-                <button (click)="removeExpense(expenses.monthlyExpenses, item)">Remove</button> -->
+                <input type="date" formControlName="startDate">
+                <input type="date" formControlName="endDate">
+                <button (click)="removeExpenseFromForm(i)">Remove</button>
             </div>
         </div>
       
