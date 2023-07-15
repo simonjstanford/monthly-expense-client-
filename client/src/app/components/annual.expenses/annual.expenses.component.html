@@ -26,6 +26,10 @@
                 <div *ngIf="item.controls['value'].errors">
                     <div *ngIf="item.controls['value'].errors['min']">Value must be zero or greater</div>
                 </div>
+                <select formControlName="month" (change)="setMonth(item, $event)">
+                    <option disabled value=''>-- Select One --</option>
+                    <option *ngFor="let month of months" [value]="month.id">{{ month.name }}</option>
+                </select>
                 <input type="date" formControlName="startDate">
                 <input type="date" formControlName="endDate">
                 <button (click)="removeExpenseFromForm(i)">Remove</button>

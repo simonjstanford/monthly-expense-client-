@@ -2,9 +2,14 @@ import { Component } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { OauthServiceService } from 'src/app/services/oauth.service';
 import { ApiService } from 'src/app/services/api.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AnnualExpense, UserExpenses } from 'src/app/models/userExpenses';
 import { formatDate } from '@angular/common';
+
+interface Month {
+  id: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-annual-expenses',
@@ -69,5 +74,26 @@ export class AnnualExpensesComponent extends BaseComponent {
       this.expenses.annualExpenses = values;
       this.onSave();
     }
+  }
+
+  months: Month[] = [
+    { id: 1, name: 'January' },
+    { id: 2, name: 'February' },
+    { id: 3, name: 'March' },
+    { id: 4, name: 'April' },
+    { id: 5, name: 'May' },
+    { id: 6, name: 'June' },
+    { id: 7, name: 'July' },
+    { id: 8, name: 'August' },
+    { id: 9, name: 'September' },
+    { id: 10, name: 'October' },
+    { id: 11, name: 'November' },
+    { id: 12, name: 'December' }
+  ];
+
+  public setMonth(formGroup:FormGroup, e: any) {
+    const month = formGroup.controls['month'];
+    const monthNumber = parseInt(e.target.value);
+    month.setValue(monthNumber);
   }
 }
