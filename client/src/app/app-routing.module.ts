@@ -7,7 +7,10 @@ import { UserExpensesComponent } from './components/user.expenses/user.expenses.
 const routes: Routes = [
   { path: '', component: UserExpensesComponent },
   { path: 'monthly', component: MonthlyExpensesComponent },
-  { path: 'annual', component: AnnualExpensesComponent }
+  { path: 'annual', component: AnnualExpensesComponent },
+
+  // Wildcard route for handling unknown routes
+  { path: '**', redirectTo: '' } 
 ];
 
 @NgModule({
