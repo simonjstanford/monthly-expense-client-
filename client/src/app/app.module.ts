@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CurrentMonthComponent } from './components/current.month/current.month.component';
 import { UserExpensesComponent } from './components/user.expenses/user.expenses.component';
-import { MonthpickerComponent } from './components/monthpicker/monthpicker.component';
 import { DatepickerComponent } from './components/datepicker/datepicker.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MonthlyExpensesComponent } from './components/monthly.expenses/monthly.expenses.component';
@@ -19,7 +18,6 @@ import { BaseComponent } from './components/base/base.component';
     AppComponent,
     CurrentMonthComponent,
     UserExpensesComponent,
-    MonthpickerComponent,
     DatepickerComponent,
     MonthlyExpensesComponent,
     AnnualExpensesComponent,
