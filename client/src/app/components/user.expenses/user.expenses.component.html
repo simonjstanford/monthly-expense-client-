@@ -6,7 +6,7 @@
 
         <ul>
             <li><app-datepicker [(selectedDate)]="month.monthStart"></app-datepicker></li>
-            <li><button (click)="removeMonth(month)">Remove Month</button></li>
+            <!-- <li><button (click)="removeMonth(month)">Remove Month</button></li> -->
         </ul>
 
         <div *ngIf="month.outgoings">
@@ -30,9 +30,9 @@
         </div>
     </div>
 
-    <h3>Operations</h3>
+    <!-- <h3>Operations</h3>
     <ul>
         <li><button (click)="addMonth()">Add Month</button></li>
         <li><button (click)="onSave()">Save</button>  <span *ngIf="saved">Saved!</span><span *ngIf="errorSaving">Error!</span></li>   
-    </ul>
+    </ul> -->
 </div>

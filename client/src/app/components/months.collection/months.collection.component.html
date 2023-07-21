@@ -1,0 +1,14 @@
+<div *ngIf="user && expenses">
+    <h2>Hello {{expenses.user}}!</h2>
+
+    <div *ngFor="let month of expenses.months">
+        <h3>{{month.monthStart | date :'MMM y'}}</h3>
+        <button (click)="removeMonth(month)">Remove Month</button>
+    </div>
+
+    <h3>Operations</h3>
+    <ul>
+        <li><button (click)="addMonth()">Add Month</button></li>
+        <li><button (click)="onSave()">Save</button>  <span *ngIf="saved">Saved!</span><span *ngIf="errorSaving">Error!</span></li>   
+    </ul>
+</div>

@@ -26,42 +26,4 @@ export class UserExpensesComponent extends BaseComponent {
       value: 0,
     });
   }
-
-  public addMonth() {
-    if (!this.expenses) {
-      console.log("No list to add month!");
-      return;
-    }
-
-    const month: ExpenseMonth = this.createNewMonth();
-
-    if (!this.expenses.months) {
-      this.expenses.months = [month];
-    } else {
-      this.expenses.months.push(month);
-    }
-  }
-
-  public removeMonth(month: ExpenseMonth) {
-    if (!this.expenses) {
-      console.log("No list to remove month!");
-      return;
-    }
-
-    const index = this.expenses.months.indexOf(month, 0);
-    if (index > -1) {
-      this.expenses.months.splice(index, 1);
-    }
-  }
-
-  private createNewMonth(): ExpenseMonth {
-    const currentMonth = new Date();
-    const firstDay = new Date(Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), 1));
-
-    return {
-      monthStart: firstDay,
-      income: [],
-      outgoings: []
-    };
-  }
 }
