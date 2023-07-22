@@ -1,0 +1,44 @@
+<div *ngIf="month">
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+        <div>
+            <h3>Outgoings</h3>
+            <div *ngFor="let item of outgoingsExpensesFormGroup; let i = index">
+                <div [formGroup]="item">
+                    <input type="text" formControlName="name" placeholder="Name">
+                    <input type="number" formControlName="value" placeholder="Value"  min="0">
+                    <div *ngIf="item.controls['value'].errors">
+                        <div *ngIf="item.controls['value'].errors['min']">Value must be zero or greater</div>
+                    </div>
+                    <button (click)="removeOutgoingFromForm(i)">Remove</button>
+                </div>
+            </div>
+            <button (click)="addOutgoingExpense()">Add Outgoing</button>
+        </div>
+        
+        <div>
+            <h3>Income</h3>
+            <div *ngFor="let item of incomeExpensesFormGroup; let i = index">
+                <div [formGroup]="item">
+                    <input type="text" formControlName="name" placeholder="Name">
+                    <input type="number" formControlName="value" placeholder="Value"  min="0">
+                    <div *ngIf="item.controls['value'].errors">
+                        <div *ngIf="item.controls['value'].errors['min']">Value must be zero or greater</div>
+                    </div>
+                    <button (click)="removeIncomeFromForm(i)">Remove</button>
+                </div>
+            </div>
+            <button (click)="addIncome()">Add Income</button>
+        </div>
+      
+        <div>
+            <h3>Operations</h3>
+            <ul>
+                <li>
+                    <button type="submit" [disabled]="expenseForm.invalid">Save</button>
+                    <span *ngIf="saved">Saved!</span>
+                    <span *ngIf="errorSaving">Error!</span>
+                </li>
+            </ul>
+        </div>
+    </form>      
+</div>

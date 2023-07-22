@@ -1,9 +1,10 @@
 <div *ngIf="user && expenses">
     <h2>Hello {{expenses.user}}!</h2>
 
-    <div *ngFor="let month of expenses.months">
+    <div *ngFor="let month of expenses.months; let i = index">
         <h3>{{month.monthStart | date :'MMM y'}}</h3>
         <button (click)="removeMonth(month)">Remove Month</button>
+        <app-month [month]="month" [index]="i"/>
     </div>
 
     <h3>Operations</h3>

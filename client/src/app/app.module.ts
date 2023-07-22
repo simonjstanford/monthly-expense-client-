@@ -13,6 +13,7 @@ import { AnnualExpensesComponent } from './components/annual.expenses/annual.exp
 import { NavComponent } from './components/nav/nav.component';
 import { BaseComponent } from './components/base/base.component';
 import { MonthsCollectionComponent } from './components/months.collection/months.collection.component';
+import { MonthComponent } from './components/month/month.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MonthsCollectionComponent } from './components/months.collection/months
     NavComponent,
     BaseComponent,
     MonthsCollectionComponent,
+    MonthComponent,
   ],
   imports: [
     BrowserModule,
